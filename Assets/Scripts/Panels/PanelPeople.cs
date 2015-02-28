@@ -6,17 +6,14 @@ public class PanelPeople : MonoBehaviour {
 
 	public GameObject PersonPrefab;
 
-	internal void SpawnPeople (){
-		GameObject[] people = new GameObject[4];
+	internal void SpawnPeople (List<PersonTemplate> personTemplates){
 
-		for (int i=0; i<4; i++) {
-			people [i] = Instantiate (PersonPrefab) as GameObject;
-			people [i].transform.parent = transform;
+		foreach(PersonTemplate pt in personTemplates){
+
+			GameObject person = Instantiate (PersonPrefab) as GameObject;
+			person.transform.parent = transform;
+			person.AddComponent<InGamePos>().Set(pt.PositionX, pt.PositionY);
 		}
-
-		people [0].GetComponent<InGamePos> ().Set (0, 0);
-		people [3].GetComponent<InGamePos> ().Set (4, 6);
-
 
 		PersonPrefab.SetActive(false);
 	}
