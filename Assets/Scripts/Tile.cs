@@ -13,9 +13,7 @@ public class Tile : MonoBehaviour{
 	public void Prepare(TileTemplate tt) {
 		GameObjectImage.GetComponent<Image>().sprite = tt.TileType.Image;
 		template = tt;
-		GameObjectImage.transform.Rotate(0, 0, tt.Rotation.Value);
-
-		//template = tt;
+		GameObjectImage.transform.Rotate(0, 0, tt.Rotation.Value*90);
 	}
 
 	public Direction GetNextDirection(Direction previousDirection){
@@ -41,6 +39,7 @@ public class Tile : MonoBehaviour{
 	}
 	void Update()
 	{
+		return;
 		switch (template.TileType.Id)
 		{
 			case "SideUp":
@@ -60,19 +59,20 @@ public class Tile : MonoBehaviour{
 		}
 	}
 
-	void ChangeVersion()
+	public void ChangeVersion()
 	{
+		Debug.Log("Change version");
 		switch (template._Version)
 		{
 			case Version._1:
 				{
-					GameObjectImage.transform.Rotate(180, 0, 0);
+					GameObjectImage.transform.Rotate(0, 0, 90);
 					template._Version = Version._2;
 					return;
 				}
 			case Version._2:
 				{
-					GameObjectImage.transform.Rotate(180, 0, 0);
+					GameObjectImage.transform.Rotate(0, 0, 90);
 					template._Version = Version._1;
 					return;
 				}
