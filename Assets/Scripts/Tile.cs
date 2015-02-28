@@ -8,16 +8,19 @@ using UnityEngine.UI;
 public class Tile : MonoBehaviour{
 
 	public GameObject GameObjectImage;
-	TileTemplate TileTemplate;
+	private TileTemplate template;
+
 	public void Prepare(TileTemplate tt) {
 		GameObjectImage.GetComponent<Image>().sprite = tt.TileType.Image;
-		TileTemplate = tt;
+		template = tt;
 		GameObjectImage.transform.Rotate(0, 0, tt.Rotation.Value);
+
+		template = tt;
 	}
 
 	public Direction GetNextDirection(Direction previousDirection){
-		TileTemplate.TileType.Paths.ApplyRotation(TileTemplate.Rotation);
-		return TileTemplate.TileType.Paths[SwichToThisTileEntrance(previousDirection)];
+		template.TileType.Paths.ApplyRotation(template.Rotation);
+		return template.TileType.Paths[SwichToThisTileEntrance(previousDirection)];
 	}
 	private Direction SwichToThisTileEntrance(Direction previousDir)
 	{
@@ -35,9 +38,50 @@ public class Tile : MonoBehaviour{
 				break;
 		}
 		throw new System.Exception("Direction not recognised:" + previousDir);
-		//return Direction.S;
 	}
-	
+	void Update()
+	{
+		switch (template.TileType.Id)
+		{
+			case "Side":
+			case "Slant":
+				{
+					ChangeVersion();
+					break;
+				}
+			case "Cross":
+			case "Edge": break;
+			default:
+				{
+					Debug.Log("Undefined type");
+					break;
+				}
+		}
+	}
+
+	void ChangeVersion()
+	{
+		switch (template._Version)
+		{
+			case Version._1:
+				{
+					GameObjectImage.transform.Rotate(180, 0, 0);
+					template._Version = Version._2;
+					return;
+				}
+			case Version._2:
+				{
+					GameObjectImage.transform.Rotate(180, 0, 0);
+					template._Version = Version._1;
+					return;
+				}
+			default:
+				{
+					Debug.Log("Undefined version");
+					return;
+				}
+		}
+	}
 }
 
 public static class DictionaryExtension
@@ -53,4 +97,5 @@ public static class DictionaryExtension
 		}
 		return nDic;
 	}
+	
 }
