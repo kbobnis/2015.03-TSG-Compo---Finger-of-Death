@@ -1,8 +1,8 @@
 fileFormatVersion: 2
-guid: 402deff89736c174293c9a2e2f533ccb
+guid: 8975ca9c12b88d741a7327ffea82286d
 TextureImporter:
   fileIDToRecycleName:
-    21300000: personTop
+    21300000: tileSlant
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0

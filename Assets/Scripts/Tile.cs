@@ -25,10 +25,9 @@ public class Tile : MonoBehaviour{
 		template.TileType.Paths.ApplyRotation(template.Rotation);
 		return template.TileType.Paths[SwichToThisTileEntrance(previousDirection)];
 	}
-	private Direction SwichToThisTileEntrance(Direction previousDir)
-	{
-		switch (previousDir)
-		{
+
+	private Direction SwichToThisTileEntrance(Direction previousDir){
+		switch (previousDir){
 			case Direction.N:
 				return Direction.S;
 			case Direction.S:
@@ -42,16 +41,9 @@ public class Tile : MonoBehaviour{
 		}
 		throw new System.Exception("Direction not recognised:" + previousDir);
 	}
-	void Update()
-	{
-		return;
-	}
 
-	public void ChangeVersion()
-	{
-		Debug.Log("Change version on : " + gameObject.name);
+	public void ChangeVersion(){
 		if (template.TileType.AfterChange != null) {
-			Debug.Log("Version changing!!!!");
 			template.TileType = template.TileType.AfterChange;
 			UpdateImage();
 		}

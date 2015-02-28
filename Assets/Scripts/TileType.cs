@@ -21,13 +21,13 @@ public class TileType {
 		new Dictionary<Direction, Direction> { { Direction.W, Direction.N }, { Direction.N, Direction.W }});
 	public static readonly TileType Cross = new TileType("Cross", SpriteManager.TileCross,
 		new Dictionary<Direction, Direction> { { Direction.E, Direction.W }, { Direction.W, Direction.E }, { Direction.S, Direction.N }, { Direction.N, Direction.S } });
-	public static readonly TileType SideUp = new TileType("SideUp", SpriteManager.TileSideUp,
+	public static readonly TileType SideUp = new TileType("SideUp", SpriteManager.TileSide, 
 		new Dictionary<Direction, Direction> { { Direction.W, Direction.N }, { Direction.N, Direction.W }, { Direction.S, Direction.W } });
-	public static readonly TileType SideDown = new TileType("SideDown", SpriteManager.TileSideDown,
+	public static readonly TileType SideDown = new TileType("SideDown", SpriteManager.TileSide,
 		new Dictionary<Direction, Direction> { { Direction.W, Direction.S }, { Direction.N, Direction.W }, { Direction.S, Direction.W } });
-	public static readonly TileType SlantUp = new TileType("SlantUp", SpriteManager.TileSlantUp,
+	public static readonly TileType SlantUp = new TileType("SlantUp", SpriteManager.TileSlant,
 		new Dictionary<Direction, Direction> { { Direction.N, Direction.W }, { Direction.W, Direction.N }, { Direction.S, Direction.E }, { Direction.E, Direction.S } });
-	public static readonly TileType SlantDown = new TileType("SlantDown", SpriteManager.TileSlantDown,
+	public static readonly TileType SlantDown = new TileType("SlantDown", SpriteManager.TileSlant,
 		new Dictionary<Direction, Direction> { { Direction.N, Direction.W }, { Direction.W, Direction.N }, { Direction.S, Direction.E }, { Direction.E, Direction.S } });
 
 	static TileType() {
