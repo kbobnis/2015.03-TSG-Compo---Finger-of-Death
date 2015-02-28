@@ -5,8 +5,8 @@ public class InGamePos : MonoBehaviour {
 
 	public void Set(int x, int y){
 
-		int panelTilesW = (int)Game.Me.PanelTiles.GetComponent<RectTransform>().rect.width;
-		int panelTilesH = (int)Game.Me.PanelTiles.GetComponent<RectTransform>().rect.height;
+		int panelTilesW = (int)Game.Me.PanelMinigame.GetComponent<PanelMinigame>().PanelTiles.GetComponent<RectTransform>().rect.width;
+		int panelTilesH = (int)Game.Me.PanelMinigame.GetComponent<PanelMinigame>().PanelTiles.GetComponent<RectTransform>().rect.height;
 
 		int tileW = panelTilesW/5;
 		int tileH = panelTilesH/7;

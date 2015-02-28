@@ -9,6 +9,8 @@ public class PanelTiles : MonoBehaviour {
 
 	internal void Prepare(List<List<TileTemplate>> tiles) {
 
+		TilePrefab.SetActive(true);
+
 		Debug.Log("Preparing tiles, count: " + tiles.Count);
 
 		int panelTilesW = (int)GetComponent<RectTransform>().rect.width;
