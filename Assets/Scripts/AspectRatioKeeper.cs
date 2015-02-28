@@ -18,7 +18,6 @@ public class AspectRatioKeeper : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		//float prefabW = itemPrefab.GetComponent<RectTransform>().rect.width;
 		DesiredW = (int)GetComponent<RectTransform>().rect.width;
 		DesiredH = (int)GetComponent<RectTransform>().rect.height;
 

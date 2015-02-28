@@ -8,4 +8,13 @@ public class Person : MonoBehaviour {
 		Sprite s = SpriteManager.RandomPerson();
 		GetComponent<Image>().sprite = s;
 	}
+
+		public void StartLife (){
+		//StartCoroutine ("LifeTime");
+	}
+
+	IEnumerator LifeTime (){
+		yield return new WaitForSeconds (10);
+		Game.Me.PanelMinigame.GetComponent<PanelMinigame>().PanelPeople.GetComponent<PanelPeople>().KillPerson ();
+	}
 }

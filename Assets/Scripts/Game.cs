@@ -5,23 +5,30 @@ using System.Collections.Generic;
 public class Game : MonoBehaviour {
 
 	public GameObject PanelMinigame;
-	
-	public GameObject PanelTiles;
-	public static Game Me;
+	public GameObject PanelMainMenu;
 
-	public float GameScale;
+	public static Game Me;
 
 	void Awake() {
 		Me = this;
 
-		GameScale = Screen.width / 360f;
+		PanelMinigame.SetActive(false);
+		PanelMainMenu.SetActive(true);
+	}
 
+	public void StartGame (){
+		PanelMinigame.SetActive (true);
+		PanelMainMenu.SetActive (false);
+		
 
 		List<List<TileTemplate>> tiles =  MapReader.LoadMapFromJson(Resources.Load<TextAsset>("Maps/testmap").text);
 		List<PersonTemplate> personTemplates = MapReader.LoadPeopleFromJson(Resources.Load<TextAsset>("Maps/testmap").text);
-
-		PanelMinigame.GetComponent<PanelMinigame>().Prepare(tiles, personTemplates);
 		
+		PanelMinigame.GetComponent<PanelMinigame>().Prepare(tiles, personTemplates);
 	}
-	
+
+	public void EndGame (){
+		PanelMainMenu.SetActive (true);
+		PanelMinigame.SetActive (false);
+	}
 }
