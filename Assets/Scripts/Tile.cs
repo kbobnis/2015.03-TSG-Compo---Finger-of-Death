@@ -21,31 +21,14 @@ public class Tile : MonoBehaviour{
 		GameObjectImage.transform.Rotate(0, 0, template.Rotation.Value * 90);
 	}
 
-	public Direction GetNextDirection(Direction previousDirection){
-		template.TileType.Paths.ApplyRotation(template.Rotation);
-		return template.TileType.Paths[SwichToThisTileEntrance(previousDirection)];
-	}
-
-	private Direction SwichToThisTileEntrance(Direction previousDir){
-		switch (previousDir){
-			case Direction.N:
-				return Direction.S;
-			case Direction.S:
-				return Direction.N;
-			case Direction.W:
-				return Direction.E;
-			case Direction.E:
-				return Direction.W;
-			default:
-				break;
-		}
-		throw new System.Exception("Direction not recognised:" + previousDir);
-	}
-
 	public void ChangeVersion(){
-		if (template.TileType.AfterChange != null) {
-			template.TileType = template.TileType.AfterChange;
-			UpdateImage();
+		try {
+			if (template.TileType.AfterChange != null) {
+				template.TileType = template.TileType.AfterChange;
+				UpdateImage();
+			}
+		} catch (Exception e) {
+			Debug.Log("Exception: " + e);
 		}
 	}
 }

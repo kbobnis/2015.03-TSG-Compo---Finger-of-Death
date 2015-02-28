@@ -7,37 +7,31 @@ using UnityEngine.UI;
 public class PanelPeople : MonoBehaviour {
 
 	public GameObject PersonPrefab;
-	public Text PeopleCountText;
-
-	private int peopleCount;
 
 	internal void SpawnPeople (List<PersonTemplate> personTemplates){
 
 		PersonPrefab.SetActive(true);
-
+		int i=0;
+		float offsetX = 0;
+		float offsetY = 0;
 		foreach(PersonTemplate pt in personTemplates){
 
-			GameObject person = Instantiate (PersonPrefab) as GameObject;
-			person.GetComponent<Person>().Prepare();
-			person.transform.parent = transform;
+			GameObject personGameObject = Instantiate (PersonPrefab) as GameObject;
+			personGameObject.transform.parent = transform;
 
-			int personW = (int)(GetComponent<Image>().sprite.rect.width * AspectRatioKeeper.ActualScale);
-			int personH = (int)(GetComponent<Image>().sprite.rect.height * AspectRatioKeeper.ActualScale);
+			float x = pt.PositionX + offsetX;
+			float y = pt.PositionY + offsetY; 
 
-			person.AddComponent<InGamePos>().Set(pt.PositionX, pt.PositionY, personW, personH, Pivot.BottomMiddle );
-			person.GetComponent<Person>().StartLife ();
+			personGameObject.name = "person: " + i++ + ", x: " + x + ", y: " + y;
+
+			personGameObject.AddComponent<Person>().Prepare();
+			int personW = (int)(personGameObject.GetComponent<Image>().sprite.rect.width * AspectRatioKeeper.ActualScale);
+			int personH = (int)(personGameObject.GetComponent<Image>().sprite.rect.height * AspectRatioKeeper.ActualScale);
+
+			personGameObject.AddComponent<InGamePos>().Set(x, y, personW, personH, Pivot.TopLeft);
 		}
-
-		peopleCount = personTemplates.Count;
-		PeopleCountText.text = peopleCount.ToString ();
 
 		PersonPrefab.SetActive(false);
 	}
 
-	public void KillPerson (){
-		peopleCount--;
-		PeopleCountText.text = peopleCount.ToString ();
-		if (peopleCount == 0)
-			Game.Me.EndGame ();
-	}
 }
