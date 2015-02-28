@@ -9,6 +9,7 @@ public class TileType {
 
 	public readonly string Id;
 	private Sprite _Image;
+	public TileType AfterChange;
 
 	public Sprite Image {
 		get { return _Image; }
@@ -20,12 +21,21 @@ public class TileType {
 		new Dictionary<Direction, Direction> { { Direction.W, Direction.N }, { Direction.N, Direction.W }});
 	public static readonly TileType Cross = new TileType("Cross", SpriteManager.TileCross,
 		new Dictionary<Direction, Direction> { { Direction.E, Direction.W }, { Direction.W, Direction.E }, { Direction.S, Direction.N }, { Direction.N, Direction.S } });
-	public static readonly TileType SideUp = new TileType("SideUp", SpriteManager.TileSide,
+	public static readonly TileType SideUp = new TileType("SideUp", SpriteManager.TileSideUp,
 		new Dictionary<Direction, Direction> { { Direction.W, Direction.N }, { Direction.N, Direction.W }, { Direction.S, Direction.W } });
-	public static readonly TileType SideDown = new TileType("SideDown", SpriteManager.TileSide,
+	public static readonly TileType SideDown = new TileType("SideDown", SpriteManager.TileSideDown,
 		new Dictionary<Direction, Direction> { { Direction.W, Direction.S }, { Direction.N, Direction.W }, { Direction.S, Direction.W } });
-	public static readonly TileType Slant = new TileType("Slant", SpriteManager.TileSlant,
+	public static readonly TileType SlantUp = new TileType("SlantUp", SpriteManager.TileSlantUp,
 		new Dictionary<Direction, Direction> { { Direction.N, Direction.W }, { Direction.W, Direction.N }, { Direction.S, Direction.E }, { Direction.E, Direction.S } });
+	public static readonly TileType SlantDown = new TileType("SlantDown", SpriteManager.TileSlantDown,
+		new Dictionary<Direction, Direction> { { Direction.N, Direction.W }, { Direction.W, Direction.N }, { Direction.S, Direction.E }, { Direction.E, Direction.S } });
+
+	static TileType() {
+		SideUp.AfterChange = SideDown;
+		SideDown.AfterChange = SideUp;
+		SlantUp.AfterChange = SlantDown;
+		SlantDown.AfterChange = SlantUp;
+	}
 
 	private TileType(string id, Sprite image,  Dictionary<Direction, Direction> path) {
 		Id = id;
@@ -48,8 +58,9 @@ public class TileType {
 			case 8: 
 			case 9:
 			case 10: return SideUp;
-			case 11:
-			case 12: return Slant;
+			case 11: return SlantUp;
+			case 12: return SlantDown;
+			case 13: return SideDown;
 			default: throw new Exception("ticket out of range");
 		}
 	}
@@ -116,6 +127,7 @@ public class Rotation {
 			case 2:
 			case 7: 
 			case 11: 
+			case 13:
 			case 3: return _0;
 			case 8: 
 			case 12: 

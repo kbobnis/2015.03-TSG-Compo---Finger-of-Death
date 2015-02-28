@@ -11,9 +11,14 @@ public class Tile : MonoBehaviour{
 	private TileTemplate template;
 
 	public void Prepare(TileTemplate tt) {
-		GameObjectImage.GetComponent<Image>().sprite = tt.TileType.Image;
 		template = tt;
-		GameObjectImage.transform.Rotate(0, 0, tt.Rotation.Value*90);
+		UpdateImage();
+	}
+
+	private void UpdateImage() {
+		GameObjectImage.GetComponent<Image>().sprite = template.TileType.Image;
+		GameObjectImage.transform.rotation = new Quaternion();
+		GameObjectImage.transform.Rotate(0, 0, template.Rotation.Value * 90);
 	}
 
 	public Direction GetNextDirection(Direction previousDirection){
@@ -40,47 +45,15 @@ public class Tile : MonoBehaviour{
 	void Update()
 	{
 		return;
-		switch (template.TileType.Id)
-		{
-			case "SideUp":
-			case "SideDown":
-			case "Slant":
-				{
-					ChangeVersion();
-					break;
-				}
-			case "Cross":
-			case "Edge": break;
-			default:
-				{
-					Debug.Log("Undefined type");
-					break;
-				}
-		}
 	}
 
 	public void ChangeVersion()
 	{
-		Debug.Log("Change version");
-		switch (template._Version)
-		{
-			case Version._1:
-				{
-					GameObjectImage.transform.Rotate(0, 0, 90);
-					template._Version = Version._2;
-					return;
-				}
-			case Version._2:
-				{
-					GameObjectImage.transform.Rotate(0, 0, 90);
-					template._Version = Version._1;
-					return;
-				}
-			default:
-				{
-					Debug.Log("Undefined version");
-					return;
-				}
+		Debug.Log("Change version on : " + gameObject.name);
+		if (template.TileType.AfterChange != null) {
+			Debug.Log("Version changing!!!!");
+			template.TileType = template.TileType.AfterChange;
+			UpdateImage();
 		}
 	}
 }
@@ -92,7 +65,7 @@ public static class DictionaryExtension
 		Dictionary<Direction, Direction> nDic = new Dictionary<Direction,Direction>();
 		foreach(Direction oldKey in d.Keys)
 		{
-			Direction key = oldKey.ApplyRotation(r);//AngleToDirection(IncreaseAngle(DirectionToAngle(oldKey), r));
+			Direction key = oldKey.ApplyRotation(r);
 			Direction value = d[oldKey].ApplyRotation(r);
 			nDic.Add(key,value);
 		}
