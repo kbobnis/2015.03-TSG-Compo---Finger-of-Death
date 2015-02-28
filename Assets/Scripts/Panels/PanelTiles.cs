@@ -22,13 +22,12 @@ public class PanelTiles : MonoBehaviour {
 			for(int y=0; y< tiles[x].Count; y++){
 
 
-			//tileGameObject.GetComponent<RectTransform>().offsetMin = new Vector2(-panelTilesW / 2 + tileW * y, panelTilesH/2 - (tileH *(x+1)));
-			//tileGameObject.GetComponent<RectTransform>().offsetMax = new Vector2(-panelTilesW / 2 + tileW * (y + 1), panelTilesH/2 - tileH*x);
+			
 			GameObject tileGameObject = Instantiate(TilePrefab) as GameObject;
 			tileGameObject.GetComponent<Tile>().Prepare(tiles[x][y]);
 			tileGameObject.name = "Item at " + x + ", " + y + " rot: " + tiles[x][y].Rotation.Value;
 			tileGameObject.transform.parent = gameObject.transform;
-			tileGameObject.AddComponent<InGamePos>().Set(x, y);
+			tileGameObject.AddComponent<InGamePos>().Set(y, x);
 			}
 		}
 

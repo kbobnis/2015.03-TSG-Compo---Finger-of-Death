@@ -15,8 +15,6 @@ public class PanelPeople : MonoBehaviour {
 		}
 
 		people [0].GetComponent<InGamePos> ().Set (0, 0);
-		people [1].GetComponent<InGamePos> ().Set (4, 0);
-		people [2].GetComponent<InGamePos> ().Set (0, 6);
 		people [3].GetComponent<InGamePos> ().Set (4, 6);
 	}
 }
