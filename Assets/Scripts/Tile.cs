@@ -15,7 +15,7 @@ public class Tile : MonoBehaviour{
 		template = tt;
 		GameObjectImage.transform.Rotate(0, 0, tt.Rotation.Value);
 
-		template = tt;
+		//template = tt;
 	}
 
 	public Direction GetNextDirection(Direction previousDirection){
@@ -43,7 +43,8 @@ public class Tile : MonoBehaviour{
 	{
 		switch (template.TileType.Id)
 		{
-			case "Side":
+			case "SideUp":
+			case "SideDown":
 			case "Slant":
 				{
 					ChangeVersion();
