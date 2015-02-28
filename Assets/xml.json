@@ -1,0 +1,48 @@
+{ "height":8,
+ "layers":[
+        {
+         "data":[3, 3, 3, 3, 3, 2,
+				 3, 5, 5, 4, 2, 3, 
+				 3, 3, 5, 3, 2, 3, 
+				 3, 4, 4, 3, 4, 3, 
+				 3, 5, 4, 5, 3, 3, 
+				 3, 3, 5, 5, 4, 3, 
+				 3, 2, 4, 1, 2, 3, 
+				 3, 3, 3, 3, 3, 2],
+         "height":8,
+         "name":"Tile Layer 1",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":6,
+         "x":0,
+         "y":0
+        }],
+ "nextobjectid":1,
+ "orientation":"orthogonal",
+ "properties":
+    {
+
+    },
+ "renderorder":"right-down",
+ "tileheight":64,
+ "tilesets":[
+        {
+         "firstgid":1,
+         "image":"Images\/baseTiles.png",
+         "imageheight":64,
+         "imagewidth":320,
+         "margin":0,
+         "name":"dadasd",
+         "properties":
+            {
+
+            },
+         "spacing":0,
+         "tileheight":64,
+         "tilewidth":64
+        }],
+ "tilewidth":64,
+ "version":1,
+ "width":6
+}
