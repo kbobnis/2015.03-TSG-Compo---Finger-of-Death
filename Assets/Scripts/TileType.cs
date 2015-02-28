@@ -28,7 +28,7 @@ public class TileType {
 	public static readonly TileType SlantUp = new TileType("SlantUp", SpriteManager.TileSlantUp,
 		new Dictionary<Direction, Direction> { { Direction.N, Direction.W }, { Direction.W, Direction.N }, { Direction.S, Direction.E }, { Direction.E, Direction.S } });
 	public static readonly TileType SlantDown = new TileType("SlantDown", SpriteManager.TileSlantDown,
-		new Dictionary<Direction, Direction> { { Direction.N, Direction.W }, { Direction.W, Direction.N }, { Direction.S, Direction.E }, { Direction.E, Direction.S } });
+		new Dictionary<Direction, Direction> {{ Direction.N, Direction.E }, { Direction.W, Direction.S }, { Direction.S, Direction.W }, { Direction.E, Direction.N } });
 
 	static TileType() {
 		SideUp.AfterChange = SideDown;

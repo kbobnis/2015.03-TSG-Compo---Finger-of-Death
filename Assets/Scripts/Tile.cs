@@ -23,24 +23,7 @@ public class Tile : MonoBehaviour{
 
 	public Direction GetNextDirection(Direction previousDirection){
 		template.TileType.Paths.ApplyRotation(template.Rotation);
-		return template.TileType.Paths[SwichToThisTileEntrance(previousDirection)];
-	}
-	private Direction SwichToThisTileEntrance(Direction previousDir)
-	{
-		switch (previousDir)
-		{
-			case Direction.N:
-				return Direction.S;
-			case Direction.S:
-				return Direction.N;
-			case Direction.W:
-				return Direction.E;
-			case Direction.E:
-				return Direction.W;
-			default:
-				break;
-		}
-		throw new System.Exception("Direction not recognised:" + previousDir);
+		return template.TileType.Paths[previousDirection];
 	}
 	void Update()
 	{
