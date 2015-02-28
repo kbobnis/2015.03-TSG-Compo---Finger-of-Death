@@ -6,10 +6,8 @@ public class PanelMinigame : MonoBehaviour {
 
 	public GameObject PanelTiles;
 
-	internal void Prepare(List<TileType> tiles) {
+	internal void Prepare(List<List<TileTemplate>> tiles) {
 
 		PanelTiles.GetComponent<PanelTiles>().Prepare(tiles);
-
-
 	}
 }

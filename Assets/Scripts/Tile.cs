@@ -10,11 +10,12 @@ public class Tile : MonoBehaviour{
 	public GameObject GameObjectImage;
 
 
-	TileType TileType;
+	public void Prepare(TileTemplate tt) {
+		GameObjectImage.GetComponent<Image>().sprite = tt.TileType.Image;
+		//rotation
+		GameObjectImage.transform.Rotate(0, 0, tt.Rotation.Value);
+	}
 
-	public void Prepare(TileType tt) {
-		TileType = tt;
-		GameObjectImage.GetComponent<Image>().sprite = TileType.Image;
-
+	void Update() {
 	}
 }

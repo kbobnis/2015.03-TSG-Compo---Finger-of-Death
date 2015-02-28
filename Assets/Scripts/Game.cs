@@ -7,11 +7,10 @@ public class Game : MonoBehaviour {
 	public GameObject PanelMinigame;
 
 	void Awake() {
-		List<TileType> tiles = new List<TileType>();
 
-		for (int i = 0; i < 35; i++) {
-			tiles.Add(TileType.GetRandom());
-		}
+		List<List<TileTemplate>> tiles =  MapReader.LoadMapFromJson(Resources.Load<TextAsset>("Maps/testmap").text);
+
+
 		PanelMinigame.GetComponent<PanelMinigame>().Prepare(tiles);
 	}
 	
