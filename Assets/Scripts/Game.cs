@@ -13,8 +13,9 @@ public class Game : MonoBehaviour {
 		Me = this;
 
 		List<List<TileTemplate>> tiles =  MapReader.LoadMapFromJson(Resources.Load<TextAsset>("Maps/testmap").text);
+		List<PersonTemplate> personTemplates = MapReader.LoadPeopleFromJson(Resources.Load<TextAsset>("Maps/testmap").text);
 
-		PanelMinigame.GetComponent<PanelMinigame>().Prepare(tiles);
+		PanelMinigame.GetComponent<PanelMinigame>().Prepare(tiles, personTemplates);
 		
 	}
 	

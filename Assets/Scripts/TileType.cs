@@ -29,7 +29,6 @@ public class TileType {
 	}
 
 	internal static TileType FromJsonInt(int p) {
-		TileType tt = null;
 		switch (p) {
 			case 2: return Cross;
 			case 3: 
