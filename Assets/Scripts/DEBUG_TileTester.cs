@@ -19,28 +19,28 @@ public class DEBUG_TileTester : MonoBehaviour {
 		//	}
 		//}
 
-		if (Input.GetKeyDown(KeyCode.I)){
-			Vector2 nextDest = testedTile.GetNextDirection(-Vector2.up);
-			Debug.Log(nextDest);
-		}
+		//if (Input.GetKeyDown(KeyCode.I)){
+		//	Vector2 nextDest = testedTile.GetNextDirection(-Vector2.up);
+		//	Debug.Log(nextDest);
+		//}
 
-		if (Input.GetKeyDown(KeyCode.K))
-		{
-			Vector2 nextDest = testedTile.GetNextDirection(Vector2.up);
-			Debug.Log(nextDest);
-		}
+		//if (Input.GetKeyDown(KeyCode.K))
+		//{
+		//	Vector2 nextDest = testedTile.GetNextDirection(Vector2.up);
+		//	Debug.Log(nextDest);
+		//}
 
 
-		if (Input.GetKeyDown(KeyCode.L))
-		{
-			Vector2 nextDest = testedTile.GetNextDirection(Vector2.right);
-			Debug.Log(nextDest);
-		}
-		if (Input.GetKeyDown(KeyCode.J))
-		{
-			Vector2 nextDest = testedTile.GetNextDirection(-Vector2.right);
-			Debug.Log(nextDest);
-		}
+		//if (Input.GetKeyDown(KeyCode.L))
+		//{
+		//	Vector2 nextDest = testedTile.GetNextDirection(Vector2.right);
+		//	Debug.Log(nextDest);
+		//}
+		//if (Input.GetKeyDown(KeyCode.J))
+		//{
+		//	Vector2 nextDest = testedTile.GetNextDirection(-Vector2.right);
+		//	Debug.Log(nextDest);
+		//}
 	}
 	//IEnumerator GoToDestination(RectTransform destination){
 	//	do{

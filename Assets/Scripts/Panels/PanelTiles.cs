@@ -7,7 +7,7 @@ public class PanelTiles : MonoBehaviour {
 	public GameObject TilePrefab;
 
 
-	internal void Prepare(List<TileType> tiles) {
+	internal void Prepare(List<List<TileTemplate>> tiles) {
 
 		Debug.Log("Preparing tiles, count: " + tiles.Count);
 
@@ -18,25 +18,17 @@ public class PanelTiles : MonoBehaviour {
 		int tileW = panelTilesW/5;
 		int tileH = panelTilesH/7;
 
-		int i=0;
-		int j = 0;
-		foreach (TileType tile in tiles) {
+		for(int x=0; x < tiles.Count; x++){
+			for(int y=0; y< tiles[x].Count; y++){
 
-			if (i > 4) {
-				j++;
-				i = 0;
-			}
-			Debug.Log("Preparing tile: " + i + ", " + j);
 
+			
 			GameObject tileGameObject = Instantiate(TilePrefab) as GameObject;
-			tileGameObject.GetComponent<Tile>().Prepare(tile);
-			tileGameObject.name = "Item at " + i + ", " + j;
+			tileGameObject.GetComponent<Tile>().Prepare(tiles[x][y]);
+			tileGameObject.name = "Item at " + x + ", " + y + " rot: " + tiles[x][y].Rotation.Value;
 			tileGameObject.transform.parent = gameObject.transform;
-
-			tileGameObject.GetComponent<RectTransform>().offsetMin = new Vector2(-panelTilesW / 2 + tileW*i, -panelTilesH / 2 + tileH*j);
-			tileGameObject.GetComponent<RectTransform>().offsetMax= new Vector2(-panelTilesW / 2 + tileW *(i+1), -panelTilesH / 2 + tileH *(j+1));
-
-			i++;
+			tileGameObject.AddComponent<InGamePos>().Set(y, x);
+			}
 		}
 
 		TilePrefab.SetActive(false);

@@ -5,14 +5,18 @@ using System.Collections.Generic;
 public class Game : MonoBehaviour {
 
 	public GameObject PanelMinigame;
+	
+	public GameObject PanelTiles;
+	public static Game Me;
 
 	void Awake() {
-		List<TileType> tiles = new List<TileType>();
+		Me = this;
 
-		for (int i = 0; i < 35; i++) {
-			tiles.Add(TileType.GetRandom());
-		}
-		PanelMinigame.GetComponent<PanelMinigame>().Prepare(tiles);
+		List<List<TileTemplate>> tiles =  MapReader.LoadMapFromJson(Resources.Load<TextAsset>("Maps/testmap").text);
+		List<PersonTemplate> personTemplates = MapReader.LoadPeopleFromJson(Resources.Load<TextAsset>("Maps/testmap").text);
+
+		PanelMinigame.GetComponent<PanelMinigame>().Prepare(tiles, personTemplates);
+		
 	}
 	
 }

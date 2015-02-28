@@ -7,29 +7,125 @@ using UnityEngine.UI;
 
 public class TileType {
 
+	public readonly string Id;
 	private Sprite _Image;
 
 	public Sprite Image {
 		get { return _Image; }
 	}
 
-	public static readonly TileType T1 = new TileType(Resources.Load<Sprite>("Images/Tiles/tile1"));
-	public static readonly TileType T2 = new TileType(Resources.Load<Sprite>("Images/Tiles/tile2"));
+	public Dictionary<Direction, Direction> Paths;
 
+	public static readonly TileType Edge = new TileType("Edge", SpriteManager.TileEdge, 
+		new Dictionary<Direction, Direction> { { Direction.W, Direction.N }, { Direction.N, Direction.W }});
+	public static readonly TileType Cross = new TileType("Cross", SpriteManager.TileCross,
+		new Dictionary<Direction, Direction> { { Direction.E, Direction.W }, { Direction.W, Direction.E }, { Direction.S, Direction.N }, { Direction.N, Direction.S } });
+	public static readonly TileType SideUp = new TileType("SideUp", SpriteManager.TileSide,
+		new Dictionary<Direction, Direction> { { Direction.S, Direction.N }, { Direction.N, Direction.W }, { Direction.S, Direction.W } });
+	public static readonly TileType SideDown = new TileType("SideDown", SpriteManager.TileSide,
+		new Dictionary<Direction, Direction> { { Direction.N, Direction.S }, { Direction.N, Direction.W }, { Direction.S, Direction.W } });
+	public static readonly TileType Slant = new TileType("Slant", SpriteManager.TileSlant,
+		new Dictionary<Direction, Direction> { { Direction.N, Direction.W }, { Direction.W, Direction.N }, { Direction.S, Direction.E }, { Direction.E, Direction.S } });
 
-	private TileType(Sprite image) {
+	private TileType(string id, Sprite image,  Dictionary<Direction, Direction> path) {
+		Id = id;
 		_Image = image;
+		Paths = path;
 	}
 
-
 	internal static TileType GetRandom() {
+		return FromJsonInt(UnityEngine.Random.Range(0, 2));
+	}
 
-		int ticket = UnityEngine.Random.Range(0, 2);
-
-		switch (ticket) {
-			case 0: return T1;
-			case 1: return T2;
+	internal static TileType FromJsonInt(int p) {
+		switch (p) {
+			case 2: return Cross;
+			case 3: 
+			case 4: 
+			case 5: 
+			case 6: return Edge;
+			case 7: 
+			case 8: 
+			case 9:
+			case 10: return SideUp;
+			case 11:
+			case 12: return Slant;
 			default: throw new Exception("ticket out of range");
 		}
 	}
+	
+}
+public enum Direction
+{
+	N,
+	S,
+	W,
+	E
+}
+public static class DirectionExtension
+{
+	public static Direction ApplyRotation(this Direction d, Rotation r)
+	{
+		Direction newDir = d;
+		for (int i = 0; i < r.Value; i++)
+		{
+			newDir = newDir.Rotate();
+		}
+		return newDir;
+	}
+	public static Direction Rotate(this Direction d)
+	{
+		switch (d)
+		{
+			case Direction.N:
+				return Direction.E;
+			case Direction.S:
+				return Direction.W;
+			case Direction.W:
+				return Direction.N;
+			case Direction.E:
+				return Direction.S;
+			default:
+				Debug.LogError("Error in Direction Rotate");
+				break;
+		}
+		return d;
+	}
+
+}
+
+public class Rotation {
+
+	public static readonly Rotation _0 = new Rotation(0);
+	public static readonly Rotation _90 = new Rotation(1);
+	public static readonly Rotation _180 = new Rotation(2);
+	public static readonly Rotation _270 = new Rotation(3);
+
+	private int _Value;
+
+	public int Value {
+		get { return _Value; }
+	}
+
+	private Rotation(int r) {
+		_Value = r;
+	}
+
+	internal static Rotation FromJsonInt(int p) {
+		switch (p) {
+			case 2:
+			case 7: 
+			case 11: 
+			case 3: return _0;
+			case 8: 
+			case 12: 
+			case 4: return _270;
+			case 9: 
+			case 5: return _180; 
+			case 10: 
+			case 6: return Rotation._90;
+			default: throw new Exception("ticket out of range");
+		}
+	}
+
 }
