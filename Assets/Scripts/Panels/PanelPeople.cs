@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -6,22 +7,35 @@ public class PanelPeople : MonoBehaviour {
 
 	public GameObject PersonPrefab;
 	public List<Person> listOfPeople;
+	public Text PeopleCountText;
+
+	private int peopleCount;
+
 	internal void SpawnPeople (List<PersonTemplate> personTemplates){
+
+		PersonPrefab.SetActive(true);
 		listOfPeople = new List<Person>();
-		int i = 0;
 		foreach(PersonTemplate pt in personTemplates){
 
 			GameObject person = Instantiate (PersonPrefab) as GameObject;
 			person.transform.parent = transform;
 			Person personScript = person.GetComponent<Person>();
-			Debug.Log(i + "  "+pt.PositionX + "  " +pt.PositionY);
-			i++;
 			personScript.SetPerson(pt.PositionX, pt.PositionY, Direction.S);
-
-			person.GetComponent<InGamePos>().Set(pt.PositionX, pt.PositionY);
 			listOfPeople.Add(personScript);
+			person.AddComponent<InGamePos>().Set(pt.PositionX, pt.PositionY);
+			person.GetComponent<Person>().StartLife ();
 		}
 
+		peopleCount = personTemplates.Count;
+		PeopleCountText.text = peopleCount.ToString ();
+
 		PersonPrefab.SetActive(false);
+	}
+
+	public void KillPerson (){
+		peopleCount--;
+		PeopleCountText.text = peopleCount.ToString ();
+		if (peopleCount == 0)
+			Game.Me.EndGame ();
 	}
 }

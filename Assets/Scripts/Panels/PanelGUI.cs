@@ -8,7 +8,9 @@ public class PanelGUI : MonoBehaviour {
 
 	private int seconds = 0;
 
-	void Start () {
+	public void ResetTimer () {
+		seconds = 0;
+		Timer.text = seconds.ToString ();
 		StartCoroutine ("TimeCount");
 	}
 
