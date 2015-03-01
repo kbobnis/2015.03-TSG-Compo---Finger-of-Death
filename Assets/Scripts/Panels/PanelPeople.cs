@@ -38,13 +38,13 @@ public class PanelPeople : MonoBehaviour {
 		personGameObject.AddComponent<RealSize>().SetSize(personW, personH);
 		personGameObject.AddComponent<InGamePos>().UpdatePos(positionX, positionY);
 
-		personGameObject.AddComponent<Rigidbody>();
-		personGameObject.rigidbody.isKinematic = true;
-		personGameObject.rigidbody.useGravity = false;
-		personGameObject.AddComponent<BoxCollider>();
-		(personGameObject.collider as BoxCollider).size = new Vector3(16, 16, 16);
-		personGameObject.collider.isTrigger = true;
-		personGameObject.AddComponent<PlayerCollisionScript>();
+		personScript.ImageAvatar.AddComponent<Rigidbody>();
+		personScript.ImageAvatar.rigidbody.isKinematic = true;
+		personScript.ImageAvatar.rigidbody.useGravity = false;
+		personScript.ImageAvatar.AddComponent<BoxCollider>();
+		(personScript.ImageAvatar.collider as BoxCollider).size = new Vector3(16, 16, 16);
+		personScript.ImageAvatar.collider.isTrigger = true;
+		personScript.ImageAvatar.AddComponent<PlayerCollisionScript>().SetOwner(personScript);
 		personScript.StartMe();
 		switch (charType)
 		{
@@ -56,7 +56,7 @@ public class PanelPeople : MonoBehaviour {
 				break;
 			case Person.CharacterType.Weak:
 				personScript.SetStats(1, 0, 1, group);
-				personGameObject.AddComponent<TouchToKill>().Prepare();
+				personScript.ImageAvatar.AddComponent<TouchToKill>().Prepare();
 				personScript.ImageCone.GetComponent<ConeOfVisibility>().Prepare();
 				personScript.DirectionListener = personScript.ImageCone.GetComponent<ConeOfVisibility>();
 
@@ -108,5 +108,14 @@ public class PanelPeople : MonoBehaviour {
 		buffGameObject.AddComponent<BoxCollider>();
 		(buffGameObject.collider as BoxCollider).size = new Vector3(16, 16, 16);
 		buffGameObject.collider.isTrigger = true;
+	}
+
+	internal void ClearBoard()
+	{
+		for (int i = 0; i < People.Count; i++)
+		{
+			Destroy(People[i]);
+		}
+		People.Clear();
 	}
 }
