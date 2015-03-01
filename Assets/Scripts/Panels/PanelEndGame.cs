@@ -6,10 +6,11 @@ public class PanelEndGame : MonoBehaviour {
 	public Text score;
 	public Text time;
 
-	public void UpdateEndGameText() 
+	public void UpdateEndGameText(bool won) 
 	{
 		gameObject.SetActive(true);
-		score.text = "Score:" + PanelMinigame.score.ToString("0");
-		time.text = "Time:" + PanelGUI.seconds.ToString("0");
+		int result = (int)PanelMinigame.score - (int)PanelGUI.seconds + (won ? 10 : 0);
+		score.text = "Points:" + result;
+		time.text = "";
 	}
 }

@@ -89,7 +89,7 @@ public class PanelPeople : MonoBehaviour {
 			SpawnPerson(1, 1, Person.CollisionGroup.Enemies, Person.CharacterType.Weak);
 		}
 		if (People.Count == 1) {
-			Game.Me.EndGame();
+			Game.Me.EndGame(true);
 		}
 	}
 

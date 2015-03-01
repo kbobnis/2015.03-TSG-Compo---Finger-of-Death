@@ -33,10 +33,10 @@ public class Game : MonoBehaviour {
 		}
 	}
 
-	public void EndGame (){
+	public void EndGame (bool won){
 		gameIsRunning = false;
 		//PanelMainMenu.SetActive (true);
-		PanelEndgame.GetComponent<PanelEndGame>().UpdateEndGameText(); 
+		PanelEndgame.GetComponent<PanelEndGame>().UpdateEndGameText(won); 
 		PanelMinigame.SetActive (false);
 		PanelMinigame.GetComponent<PanelMinigame>().PanelPeople.GetComponent<PanelPeople>().ClearBoard();
 		PanelMinigame.GetComponent<PanelMinigame>().PanelBonuses.GetComponent<PanelBonuses>().ClearingBonuses();

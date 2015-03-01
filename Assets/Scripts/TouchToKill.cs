@@ -29,7 +29,7 @@ public class TouchToKill : MonoBehaviour {
 		}
 		p.Health--;
 		if (p.ShadeOfCones.Count > 0){
-			Game.Me.EndGame();
+			Game.Me.EndGame(false);
 		}
 		else 
 		{
