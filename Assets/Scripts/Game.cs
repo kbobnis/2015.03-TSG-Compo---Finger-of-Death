@@ -6,6 +6,7 @@ public class Game : MonoBehaviour {
 
 	public GameObject PanelMinigame;
 	public GameObject PanelMainMenu;
+	public GameObject PanelEndgame;
 
 	public static Game Me;
 
@@ -14,6 +15,7 @@ public class Game : MonoBehaviour {
 
 		PanelMinigame.SetActive(false);
 		PanelMainMenu.SetActive(true);
+		PanelEndgame.SetActive(false);
 	}
 
 	public void StartGameBase() {
@@ -21,7 +23,7 @@ public class Game : MonoBehaviour {
 		try {
 			PanelMinigame.SetActive(true);
 			PanelMainMenu.SetActive(false);
-
+			PanelEndgame.SetActive(false);
 			List<List<TileTemplate>> tiles = MapReader.LoadMapFromJson(Resources.Load<TextAsset>("Maps/testmap").text);
 			List<PersonTemplate> personTemplates = MapReader.LoadPeopleFromJson(Resources.Load<TextAsset>("Maps/testmap").text);
 			PanelMinigame.GetComponent<PanelMinigame>().Prepare(tiles, personTemplates);
@@ -31,7 +33,8 @@ public class Game : MonoBehaviour {
 	}
 
 	public void EndGame (){
-		PanelMainMenu.SetActive (true);
+		//PanelMainMenu.SetActive (true);
+		PanelEndgame.GetComponent<PanelEndGame>().UpdateEndGameText(); 
 		PanelMinigame.SetActive (false);
 		PanelMinigame.GetComponent<PanelMinigame>().PanelPeople.GetComponent<PanelPeople>().ClearBoard();
 	}

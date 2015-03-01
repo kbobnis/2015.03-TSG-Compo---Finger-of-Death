@@ -7,7 +7,7 @@ public class PanelGUI : MonoBehaviour {
 	public Text Timer;
 	public Text Score;
 
-	private float seconds = 0;
+	public static float seconds = 0;
 
 	public void ResetTimer () {
 		seconds = 0;
