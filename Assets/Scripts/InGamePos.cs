@@ -15,13 +15,6 @@ public class InGamePos : MonoBehaviour {
 		GetComponent<RectTransform>().localPosition = new Vector3(tileW * x - panelTilesW / 2, -tileH * y + panelTilesH/2);
 	}
 
-	internal Tile GetMyTile(int X, int Y) {
-		List<List<Tile>> tiles = Game.Me.PanelMinigame.GetComponent<PanelMinigame>().PanelTiles.GetComponent<PanelTiles>().Tiles;
-		if (tiles.Count <= Y || tiles[(int)Y].Count <= X || X < 0 || Y < 0){
-			throw new System.Exception("There is no tile of number: " + X + ", " + Y);
-		}
-		return tiles[(int)Y][(int)X];
-	}
 }
 
 public enum Pivot {

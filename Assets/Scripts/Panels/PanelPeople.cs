@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class PanelPeople : MonoBehaviour {
 
@@ -64,38 +64,41 @@ public class PanelPeople : MonoBehaviour {
 			default:
 				break;
 		}
+		personGameObject.AddComponent<TouchToKill>().Prepare();
 		People.Add(personGameObject);
 	}
 	public void PersonDied(GameObject Person) 
 	{
 		People.Remove(Person);
 	}
-	public bool CheckPeoplePos (Tile t){
-		int x = 0, y = 0;
 
-		foreach (List<Tile> tileRow in Game.Me.PanelMinigame.GetComponent<PanelMinigame>().PanelTiles.GetComponent<PanelTiles>().Tiles) {
-			if(tileRow.Contains (t)){
-				x = Game.Me.PanelMinigame.GetComponent<PanelMinigame>().PanelTiles.GetComponent<PanelTiles>().Tiles.IndexOf (tileRow);
-				y = Game.Me.PanelMinigame.GetComponent<PanelMinigame>().PanelTiles.GetComponent<PanelTiles>().Tiles[x].IndexOf(t);
-				break;
-			}
-		}
-
-		foreach (GameObject person in People) {
-			if (person.GetComponent<Person> ().X == y &&
-				person.GetComponent<Person> ().Y == x )
-				return false;
-		}
-		return true;
-	}
-
-	void Update() {
+	void Update()
+	{
 		if (Input.GetKeyDown(KeyCode.I))
 		{
 			SpawnPerson(1, 1, Person.CollisionGroup.Enemies, Person.CharacterType.Weak);
 		}
-		//foreach()
-		//check collisions
 	}
+	public void SpawnBuff (){
+		GameObject buffGameObject = Instantiate (PersonPrefab) as GameObject;
+		buffGameObject.transform.parent = transform;
+		buffGameObject.name = "buff";
+		float posX = Random.Range (0, 5)+0.5f;
+		float posY = Random.Range (0, 7)+0.5f;
 
+		buffGameObject.AddComponent<Buff> ();
+		buffGameObject.GetComponent<Image> ().sprite = SpriteManager.BuffSprite;
+
+		buffGameObject.name = "buff x: "+posX+", y: "+posY;
+		int buffW = (int)(buffGameObject.GetComponent<Image>().sprite.rect.width * AspectRatioKeeper.ActualScale);
+		int buffH = (int)(buffGameObject.GetComponent<Image>().sprite.rect.height * AspectRatioKeeper.ActualScale);
+		buffGameObject.AddComponent<RealSize>().SetSize(buffW, buffH);
+		buffGameObject.AddComponent<InGamePos>().UpdatePos(posX, posY);
+		buffGameObject.AddComponent<Rigidbody>();
+		buffGameObject.rigidbody.isKinematic = true;
+		buffGameObject.rigidbody.useGravity = false;
+		buffGameObject.AddComponent<BoxCollider>();
+		(buffGameObject.collider as BoxCollider).size = new Vector3(16, 16, 16);
+		buffGameObject.collider.isTrigger = true;
+	}
 }

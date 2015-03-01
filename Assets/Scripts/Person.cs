@@ -78,16 +78,24 @@ public class Person : MonoBehaviour
 		gameObject.AddComponent<InGamePos>();
 		GetComponent<InGamePos>().UpdatePos(X, Y);
 		StartMe();
+		Game.Me.PanelMinigame.GetComponent<PanelMinigame>().PanelTiles.GetComponent<PanelTiles>().GetTile((int)X, (int)Y).Lock();
 	}
 
 	public void StartMe() {
-		Tile t = GetComponent<InGamePos>().GetMyTile((int)X, (int)Y);
+		Tile t = Game.Me.PanelMinigame.GetComponent<PanelMinigame>().PanelTiles.GetComponent<PanelTiles>().GetTile((int)X, (int)Y);
 		DestDir = t.GetDestination(StartDir);
 		Progress = 0;
 	}
 
+	void OnDestroy() {
+		Game.Me.PanelMinigame.GetComponent<PanelMinigame>().PanelTiles.GetComponent<PanelTiles>().GetTile((int)X, (int)Y).Unlock();
+	}
+
 	private void MoveToNext() {
 		
+		//unlock old tile from changing version
+		Game.Me.PanelMinigame.GetComponent<PanelMinigame>().PanelTiles.GetComponent<PanelTiles>().GetTile((int)X,(int)Y).Unlock();
+
 		switch (DestDir) {
 			case Direction.N: Y--;  break;
 			case Direction.E: X++; break;
@@ -96,6 +104,9 @@ public class Person : MonoBehaviour
 			default:
 				throw new System.Exception("Can not move to direction: " + DestDir);
 		}
+
+		//lock this tile from changing version
+		Game.Me.PanelMinigame.GetComponent<PanelMinigame>().PanelTiles.GetComponent<PanelTiles>().GetTile((int)X, (int)Y).Lock();
 		StartDir = DestDir.Opposite();
 	}
 

@@ -9,6 +9,7 @@ public class Tile : MonoBehaviour{
 
 	public GameObject GameObjectImage, GameObjectImageArrow, GameObjectImageBorder;
 	private TileTemplate TileTemplate;
+	private int ChangeLocked;
 
 	public void Prepare(TileTemplate tt) {
 		TileTemplate = tt;
@@ -20,7 +21,7 @@ public class Tile : MonoBehaviour{
 		GameObjectImage.transform.rotation = new Quaternion();
 		GameObjectImage.transform.Rotate(0, 0, TileTemplate.Rotation.Value * -90);
 		
-		GameObjectImageBorder.GetComponent<Image>().color = Color.green;
+		GameObjectImageBorder.GetComponent<Image>().color = ChangeLocked>0?Color.red:Color.green;
 		GameObjectImageBorder.SetActive(TileTemplate.TileType.AfterChange != null);
 		
 		
@@ -34,7 +35,7 @@ public class Tile : MonoBehaviour{
 
 	public void ChangeVersion(){
 		try {
-			if (TileTemplate.TileType.AfterChange != null && Game.Me.PanelMinigame.GetComponent<PanelMinigame>().PanelPeople.GetComponent<PanelPeople>().CheckPeoplePos (this)) {
+			if (TileTemplate.TileType.AfterChange != null && ChangeLocked == 0) {
 				TileTemplate.TileType = TileTemplate.TileType.AfterChange;
 				UpdateImage();
 			}
@@ -50,6 +51,16 @@ public class Tile : MonoBehaviour{
 			throw new Exception("There is no start dir: " + StartDir + " in tile: " + gameObject.name);
 		}
 		return path[StartDir];
+	}
+
+	internal void Unlock() {
+		ChangeLocked--;
+		UpdateImage();
+	}
+
+	internal void Lock() {
+		ChangeLocked++;
+		UpdateImage();
 	}
 }
 
