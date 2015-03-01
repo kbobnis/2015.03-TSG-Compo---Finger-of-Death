@@ -1,85 +1,65 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UI;
 
 public class Person : MonoBehaviour
 {
 	#region PlayerStats
-	float timeToDeath = 60;
+	public int lives = 1;
+	public bool isAlive = true;
+	public int attackPower = 1;
+	int maxLives = 1;
+	public float timeToDeath = 60;
 	public float speed = 1;
-	float speedMod = 1;
-	public float GetSpeed() { return speed * speedMod; }
+	public float GetSpeed() { return speed + speedMod; }
+	public PersonBuff personBuff;
 	bool isPowerful = false;
-	float lives = 3; float maxLives = 3;
-	float points = 0;
-	public void OnCollisionFood()
-	{
-		points += 5;
-	}
-	public void OnCollisionWarrior()
-	{
-		points += 10;
-		if (!isPowerful)
-		{
-			lives -= 1;
-		}
-	}
-	public void OnCollisonBoss()
-	{
-		if (!isPowerful)
-		{
-			lives -= 3;
-		}
-		else
-		{
-			points += 50;
-		}
-	}
-	public void OnCollisionLife()
-	{
-		points += 5;
-		lives += 1;
-		if (lives > maxLives)
-		{
-			lives = maxLives;
-			points += 5; // bonus points if character have maxLives
-		}
-	}
-	#region stationaryBuffs
-	public void OnCollisionPower()
-	{
-		isPowerful = true;
-		StartCoroutine(DisablePowerBuff());
-	}
-	IEnumerator DisablePowerBuff()
-	{
-		float timer = 0;
-		do
-		{
-			timer += Time.deltaTime;
-			yield return new WaitForEndOfFrame();
-		} while (timer <= 5);
-		isPowerful = false;
-	}
+	public int score = 0;
 
-	public void OnCollisionSpeed()
+	public void SetStats(int maxLives, int attackPower, float speed, float timeToDeath)
 	{
-		speedMod = 1.5f;
-		StartCoroutine(DisableSpeed());
+		this.maxLives = maxLives;
+		this.lives = maxLives;
+		this.attackPower = attackPower;
+		this.speed = speed;
+		this.timeToDeath = timeToDeath;
 	}
-	IEnumerator DisableSpeed()
+	public void PersonStatsUpdate() 
 	{
-		float timer = 0;
-		do
+		timeToDeath -= Time.deltaTime;
+		if (isAlive && (timeToDeath <= 0 || lives <= 0)) 
 		{
-			timer += Time.deltaTime;
-			yield return new WaitForEndOfFrame();
-		} while (timer <= 5);
-		speedMod = 1;
+			//Death;
+			Death();
+		}
 	}
-	public void OnCollisonTime()
+	void Death() 
 	{
-		timeToDeath += 15;
+		isAlive = false;
+		Game.Me.PanelMinigame.GetComponent<PanelMinigame>().PanelPeople.GetComponent<PanelPeople>().PersonDied(gameObject);
+		Destroy(gameObject);
+	}
+	#region Buffs
+	public List<PersonBuff> buffs;
+	float speedMod = 0;
+	public void IncreaseSpeed(float value)
+	{
+		speedMod = value;
+	}
+	public void AddBuff(PersonBuff buff) 
+	{
+		lives += buff.deltaLives;
+		if (lives > maxLives) 
+		{
+			score += 10;
+		}
+		score += buff.deltaScore;
+		timeToDeath += buff.deltaTimeToLive;
+		if (buff.timer > 0) 
+		{
+			buffs.Add(buff);
+		}
 	}
 	#endregion
 	#endregion
@@ -89,11 +69,8 @@ public class Person : MonoBehaviour
 	public float Progress = 0;
 	public CollisionGroup group = CollisionGroup.Enemies;
 	public void SetGroup(CollisionGroup value) { group = value; }
-	public bool CompareGroup(CollisionGroup value) { 
-		if (group == value) return true; 
-		else return false; 
-	}
-	internal void Prepare(int x, int y) {
+	internal void Prepare(int x, int y){
+		buffs = new List<PersonBuff>();
 		X = x;
 		Y = y;
 		Sprite s = SpriteManager.RandomPerson();
@@ -102,7 +79,6 @@ public class Person : MonoBehaviour
 		GetComponent<InGamePos>().UpdatePos(X, Y);
 		StartMe();
 	}
-
 
 	public void StartMe() {
 		Tile t = GetComponent<InGamePos>().GetMyTile((int)X, (int)Y);
@@ -139,11 +115,20 @@ public class Person : MonoBehaviour
 			offset.y++;
 		}
 		GetComponent<InGamePos>().UpdatePos(X + offset.x, Y + offset.y - 0.1f); //-0.1f to make an illusion that he is going on path
-	
+		PersonStatsUpdate();
 	}
+
 	public enum CollisionGroup
 	{
 		Player,
 		Enemies
+	}
+	public enum CharacterType 
+	{
+		Bonus,
+		Weak,
+		Soldier,
+		Boss,
+		Player
 	}
 }

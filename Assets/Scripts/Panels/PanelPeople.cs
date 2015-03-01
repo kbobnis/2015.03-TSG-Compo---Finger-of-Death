@@ -11,21 +11,21 @@ public class PanelPeople : MonoBehaviour {
 
 	internal void SpawnPeople (List<PersonTemplate> personTemplates){
 		PersonPrefab.SetActive(true);
-		int i=0;
 		foreach(PersonTemplate pt in personTemplates){
-
-			i = SpawnPerson(i, pt.PositionX, pt.PositionY, Person.CollisionGroup.Enemies);
+			SpawnPerson(pt.PositionX, pt.PositionY, Person.CollisionGroup.Enemies, Person.CharacterType.Weak);
 		}
-		SpawnPerson(i,2,3,Person.CollisionGroup.Player); // PlayerCharacter
+		SpawnPerson(2, 3, Person.CollisionGroup.Player, Person.CharacterType.Player); // PlayerCharacter
 		PersonPrefab.SetActive(false);
 	}
 
-	private int SpawnPerson(int i, int positionX,int positionY ,Person.CollisionGroup group)
+	private void SpawnPerson(int positionX,int positionY, Person.CollisionGroup group, Person.CharacterType charType)
 	{
 		GameObject personGameObject = Instantiate(PersonPrefab) as GameObject;
+		personGameObject.SetActive(true);
 		personGameObject.transform.parent = transform;
-		personGameObject.name = "person: " + i++ + ", x: " + positionX + ", y: " + positionY;
-		personGameObject.AddComponent<Person>().Prepare(positionX, positionY);
+		personGameObject.name = "person: " + ", x: " + positionX + ", y: " + positionY;
+		Person personScript = personGameObject.AddComponent<Person>();
+		personScript.Prepare(positionX, positionY);
 		int personW = (int)(personGameObject.GetComponent<Image>().sprite.rect.width * AspectRatioKeeper.ActualScale);
 		int personH = (int)(personGameObject.GetComponent<Image>().sprite.rect.height * AspectRatioKeeper.ActualScale);
 		personGameObject.AddComponent<RealSize>().SetSize(personW, personH);
@@ -35,12 +35,41 @@ public class PanelPeople : MonoBehaviour {
 		personGameObject.AddComponent<BoxCollider>();
 		(personGameObject.collider as BoxCollider).size = new Vector3(16, 16, 16);
 		personGameObject.collider.isTrigger = true;
-		personGameObject.GetComponent<Person>().StartMe();
-		personGameObject.GetComponent<Person>().group = group;
+		personScript.StartMe();
+		personScript.SetGroup(group);
+		switch (charType)
+		{
+			case Person.CharacterType.Player:
+				personScript.SetStats(3, 1, 1.5f, 60);
+				personGameObject.AddComponent<PlayerCollisionScript>();
+				personGameObject.GetComponent<Image>().color = Color.red; //ForDEBUG
+				personScript.personBuff = new PersonBuff(0,0,0,0,false,0);
+				break;
+			case Person.CharacterType.Weak:
+				personScript.SetStats(1, 0, 1, 999999);
+				personScript.personBuff = new PersonBuff(0,2,5,0,false,0);
+				break;
+			case Person.CharacterType.Bonus:
+				personScript.SetStats(1, 0, 0, 999999);
+				personScript.personBuff = new PersonBuff(0,0,0,0,false,0);
+				break;
+			case Person.CharacterType.Soldier:
+				personScript.SetStats(1, 1, 1, 999999);
+				personScript.personBuff = new PersonBuff(0,5,10,0,false,0);
+				break;
+			case Person.CharacterType.Boss:
+				personScript.SetStats(1, 3, 1, 999999);
+				personScript.personBuff = new PersonBuff(0,5,20,0,false,0);
+				break;
+			default:
+				break;
+		}
 		People.Add(personGameObject);
-		return i;
 	}
-
+	public void PersonDied(GameObject Person) 
+	{
+		People.Remove(Person);
+	}
 	public bool CheckPeoplePos (Tile t){
 		int x = 0, y = 0;
 
@@ -61,7 +90,10 @@ public class PanelPeople : MonoBehaviour {
 	}
 
 	void Update() {
-		 
+		if (Input.GetKeyDown(KeyCode.I))
+		{
+			SpawnPerson(1, 1, Person.CollisionGroup.Enemies, Person.CharacterType.Weak);
+		}
 		//foreach()
 		//check collisions
 	}
