@@ -30,8 +30,8 @@ public class PanelPeople : MonoBehaviour {
 		Person personScript = personGameObject.GetComponent<Person>();
 		
 		personScript.Prepare(positionX, positionY, charType);
-		int personW = (int)(personScript.ImageAvatar.GetComponent<Image>().sprite.rect.width * AspectRatioKeeper.ActualScale);
-		int personH = (int)(personScript.ImageAvatar.GetComponent<Image>().sprite.rect.height * AspectRatioKeeper.ActualScale);
+		int personW = (int)(personScript.ImageAvatar.GetComponent<Image>().sprite.rect.width * AspectRatioKeeper.ActualScale*3/2f);
+		int personH = (int)(personScript.ImageAvatar.GetComponent<Image>().sprite.rect.height * AspectRatioKeeper.ActualScale*3/2f);
 		personScript.ImageAvatar.AddComponent<RealSize>().SetSize(personW, personH);
 		
 		personGameObject.AddComponent<InGamePos>().UpdatePos(positionX, positionY);
