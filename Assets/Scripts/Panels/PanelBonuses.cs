@@ -23,7 +23,8 @@ public class PanelBonuses : MonoBehaviour {
 			float posY = Random.Range(0, 6) + 0.5f;
 
 			p.ImageAvatar.AddComponent<TouchToKill>().Prepare();
-			buffGameObject.AddComponent<Buff>();
+			Buff b = buffGameObject.AddComponent<Buff>();
+			b.DeltaSpeed = 1f;
 			p.ImageCone.SetActive(false);
 			p.Prepare((int)posX, (int)posY);
 			p.SetStats(1, 0, 0, Person.CollisionGroup.Chest);
