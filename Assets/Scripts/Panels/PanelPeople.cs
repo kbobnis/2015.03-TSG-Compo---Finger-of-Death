@@ -26,7 +26,22 @@ public class PanelPeople : MonoBehaviour {
 			People.Add(personGameObject);
 		}
 
+		SpawnBuff ();
+
 		PersonPrefab.SetActive(false);
+	}
+
+	void SpawnBuff (){
+		GameObject buffGameObject = Instantiate (PersonPrefab) as GameObject;
+		buffGameObject.transform.parent = transform;
+		buffGameObject.name = "buff";
+		int posX = Random.Range (0, Game.Me.PanelMinigame.GetComponent<PanelMinigame> ().PanelTiles.GetComponent<PanelTiles> ().Tiles.Count);
+		int posY = Random.Range (0, Game.Me.PanelMinigame.GetComponent<PanelMinigame> ().PanelTiles.GetComponent<PanelTiles> ().Tiles[0].Count);
+		buffGameObject.name = "buff x: "+posX+", y: "+posY;
+		buffGameObject.AddComponent<Buff> ().Prepare (posX, posY);
+		int buffW = (int)(buffGameObject.GetComponent<Image>().sprite.rect.width * AspectRatioKeeper.ActualScale);
+		int buffH = (int)(buffGameObject.GetComponent<Image>().sprite.rect.height * AspectRatioKeeper.ActualScale);
+		buffGameObject.AddComponent<RealSize>().SetSize(buffW, buffH);
 	}
 
 	public bool CheckPeoplePos (Tile t){
