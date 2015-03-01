@@ -14,24 +14,31 @@ public class PanelPeople : MonoBehaviour {
 		int i=0;
 		foreach(PersonTemplate pt in personTemplates){
 
-			GameObject personGameObject = Instantiate (PersonPrefab) as GameObject;
-			personGameObject.transform.parent = transform;
-			personGameObject.name = "person: " + i++ + ", x: " + pt.PositionX + ", y: " + pt.PositionY;
-			personGameObject.AddComponent<Person>().Prepare(pt.PositionX, pt.PositionY );
-			int personW = (int)(personGameObject.GetComponent<Image>().sprite.rect.width * AspectRatioKeeper.ActualScale);
-			int personH = (int)(personGameObject.GetComponent<Image>().sprite.rect.height * AspectRatioKeeper.ActualScale);
-			personGameObject.AddComponent<RealSize>().SetSize(personW, personH);
-			personGameObject.AddComponent<Rigidbody>();
-			personGameObject.rigidbody.isKinematic = true;
-			personGameObject.rigidbody.useGravity = false;
-			personGameObject.AddComponent<BoxCollider>();
-			(personGameObject.collider as BoxCollider).size = new Vector3(16, 16, 16);
-			personGameObject.collider.isTrigger = true;
-			personGameObject.GetComponent<Person>().StartMe();
-			People.Add(personGameObject);
+			i = SpawnPerson(i, pt.PositionX, pt.PositionY, Person.CollisionGroup.Enemies);
 		}
-
+		SpawnPerson(i,2,3,Person.CollisionGroup.Player); // PlayerCharacter
 		PersonPrefab.SetActive(false);
+	}
+
+	private int SpawnPerson(int i, int positionX,int positionY ,Person.CollisionGroup group)
+	{
+		GameObject personGameObject = Instantiate(PersonPrefab) as GameObject;
+		personGameObject.transform.parent = transform;
+		personGameObject.name = "person: " + i++ + ", x: " + positionX + ", y: " + positionY;
+		personGameObject.AddComponent<Person>().Prepare(positionX, positionY);
+		int personW = (int)(personGameObject.GetComponent<Image>().sprite.rect.width * AspectRatioKeeper.ActualScale);
+		int personH = (int)(personGameObject.GetComponent<Image>().sprite.rect.height * AspectRatioKeeper.ActualScale);
+		personGameObject.AddComponent<RealSize>().SetSize(personW, personH);
+		personGameObject.AddComponent<Rigidbody>();
+		personGameObject.rigidbody.isKinematic = true;
+		personGameObject.rigidbody.useGravity = false;
+		personGameObject.AddComponent<BoxCollider>();
+		(personGameObject.collider as BoxCollider).size = new Vector3(16, 16, 16);
+		personGameObject.collider.isTrigger = true;
+		personGameObject.GetComponent<Person>().StartMe();
+		personGameObject.GetComponent<Person>().group = group;
+		People.Add(personGameObject);
+		return i;
 	}
 
 	public bool CheckPeoplePos (Tile t){
