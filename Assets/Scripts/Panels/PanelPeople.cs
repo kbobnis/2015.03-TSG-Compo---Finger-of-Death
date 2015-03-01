@@ -49,20 +49,17 @@ public class PanelPeople : MonoBehaviour {
 		switch (charType)
 		{
 			case Person.CharacterType.Player:
-				personScript.SetStats(3, 1, 1.5f, group);
+				personScript.SetStats(30, 1, 1.5f, group);
 				
 				personScript.ImageCone.SetActive(false);
 				personScript.ImageAvatar.GetComponent<Image>().color = Color.red; //ForDEBUG
 				break;
 			case Person.CharacterType.Weak:
-				personScript.SetStats(1, 0, 1, group);
+				personScript.SetStats(1, 1, 1, group);
 				personGameObject.AddComponent<TouchToKill>().Prepare();
 				personScript.ImageCone.GetComponent<ConeOfVisibility>().Prepare();
 				personScript.DirectionListener = personScript.ImageCone.GetComponent<ConeOfVisibility>();
 
-				break;
-			case Person.CharacterType.Bonus:
-				personScript.SetStats(1, 0, 0, group);
 				break;
 			case Person.CharacterType.Soldier:
 				personScript.SetStats(1, 1, 1, group);
@@ -87,26 +84,5 @@ public class PanelPeople : MonoBehaviour {
 			SpawnPerson(1, 1, Person.CollisionGroup.Enemies, Person.CharacterType.Weak);
 		}
 	}
-	public void SpawnBuff (){
-		GameObject buffGameObject = Instantiate (PersonPrefab) as GameObject;
-		buffGameObject.transform.parent = transform;
-		buffGameObject.name = "buff";
-		float posX = Random.Range (0, 5)+0.5f;
-		float posY = Random.Range (0, 7)+0.5f;
 
-		buffGameObject.AddComponent<Buff> ();
-		buffGameObject.GetComponent<Image> ().sprite = SpriteManager.BuffSprite;
-
-		buffGameObject.name = "buff x: "+posX+", y: "+posY;
-		int buffW = (int)(buffGameObject.GetComponent<Image>().sprite.rect.width * AspectRatioKeeper.ActualScale);
-		int buffH = (int)(buffGameObject.GetComponent<Image>().sprite.rect.height * AspectRatioKeeper.ActualScale);
-		buffGameObject.AddComponent<RealSize>().SetSize(buffW, buffH);
-		buffGameObject.AddComponent<InGamePos>().UpdatePos(posX, posY);
-		buffGameObject.AddComponent<Rigidbody>();
-		buffGameObject.rigidbody.isKinematic = true;
-		buffGameObject.rigidbody.useGravity = false;
-		buffGameObject.AddComponent<BoxCollider>();
-		(buffGameObject.collider as BoxCollider).size = new Vector3(16, 16, 16);
-		buffGameObject.collider.isTrigger = true;
-	}
 }

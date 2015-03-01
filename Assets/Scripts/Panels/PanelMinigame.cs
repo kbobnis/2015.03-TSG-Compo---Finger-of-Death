@@ -7,6 +7,7 @@ public class PanelMinigame : MonoBehaviour {
 	public GameObject PanelTiles;
 	public GameObject PanelPeople;
 	public GameObject PanelGUI;
+	public GameObject PanelBonuses;
 
 
 	internal void Prepare(List<List<TileTemplate>> tiles, List<PersonTemplate> personTemplates) {
@@ -14,5 +15,6 @@ public class PanelMinigame : MonoBehaviour {
 		PanelGUI.GetComponent<PanelGUI>().ResetTimer();
 		PanelTiles.GetComponent<PanelTiles>().Prepare(tiles);
 		PanelPeople.GetComponent<PanelPeople>().SpawnPeople(personTemplates);
+		PanelBonuses.GetComponent<PanelBonuses> ().Prepare ();
 	}
 }

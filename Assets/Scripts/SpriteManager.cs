@@ -18,7 +18,7 @@ public class SpriteManager : MonoBehaviour {
 		TileSlantDown = Resources.Load<Sprite>("Images/tileSlantDown");
 		ArrowUp = Resources.Load<Sprite>("Images/arrowUp");
 		ArrowDown = Resources.Load<Sprite>("Images/arrowDown");
-		BuffSprite = Resources.Load<Sprite> ("Images/testBuff");;
+		BuffSprite = Resources.Load<Sprite> ("Images/treasure");;
 
 		People.Add(Resources.Load<Sprite>("Images/person1"));
 		People.Add(Resources.Load<Sprite>("Images/person2"));

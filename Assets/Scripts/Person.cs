@@ -102,10 +102,10 @@ public class Person : MonoBehaviour
 	public enum CollisionGroup
 	{
 		Player,
-		Enemies
+		Enemies,
+		Chest
 	}
 	public enum CharacterType {
-		Bonus,
 		Weak,
 		Soldier,
 		Boss,
