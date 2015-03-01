@@ -15,10 +15,6 @@ public class PlayerCollisionScript : MonoBehaviour {
 			player = transform.parent.GetComponent<Person>();
 		}
 	}
-	void Update() 
-	{
-		//PanelGUI.GetPanelGUI().UpdateScore(player.Points);
-	}
 
 	void OnTriggerEnter(Collider col)
 	{

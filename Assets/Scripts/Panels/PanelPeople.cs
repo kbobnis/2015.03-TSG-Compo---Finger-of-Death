@@ -50,7 +50,6 @@ public class PanelPeople : MonoBehaviour {
 		{
 			case Person.CharacterType.Player:
 				personScript.SetStats(30, 1, 1.5f, group);
-				
 				personScript.ImageCone.SetActive(false);
 				personScript.ImageAvatar.GetComponent<Image>().color = Color.red; //ForDEBUG
 				break;

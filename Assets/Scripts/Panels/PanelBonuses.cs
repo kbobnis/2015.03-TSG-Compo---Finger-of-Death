@@ -13,6 +13,7 @@ public class PanelBonuses : MonoBehaviour {
 	IEnumerator SpawnBuff (){
 		while (true) {
 			GameObject buffGameObject = Instantiate (PersonPrefab) as GameObject;
+			
 			buffGameObject.SetActive (true);
 			Person p = buffGameObject.GetComponent<Person> ();
 			buffGameObject.transform.parent = transform;
@@ -25,18 +26,21 @@ public class PanelBonuses : MonoBehaviour {
 			p.Prepare ((int)posX, (int)posY);
 			p.SetStats (1, 0, 0, Person.CollisionGroup.Chest);
 			p.ImageAvatar.GetComponent<Image> ().sprite = SpriteManager.BuffSprite;
+			p.ImageAvatar.AddComponent<PlayerCollisionScript>().SetOwner(p);
 			
 			buffGameObject.name = "buff x: " + posX + ", y: " + posY;
 			int buffW = (int)(p.ImageAvatar.GetComponent<Image> ().sprite.rect.width * AspectRatioKeeper.ActualScale);
 			int buffH = (int)(p.ImageAvatar.GetComponent<Image> ().sprite.rect.height * AspectRatioKeeper.ActualScale);
 			buffGameObject.AddComponent<RealSize> ().SetSize (buffW, buffH);
 			buffGameObject.AddComponent<InGamePos> ().UpdatePos (posX, posY);
-			buffGameObject.AddComponent<Rigidbody> ();
-			buffGameObject.rigidbody.isKinematic = true;
-			buffGameObject.rigidbody.useGravity = false;
-			buffGameObject.AddComponent<BoxCollider> ();
-			(buffGameObject.collider as BoxCollider).size = new Vector3 (16, 16, 16);
-			buffGameObject.collider.isTrigger = true;
+			
+			
+			p.ImageAvatar.AddComponent<Rigidbody> ();
+			p.ImageAvatar.rigidbody.isKinematic = true;
+			p.ImageAvatar.rigidbody.useGravity = false;
+			p.ImageAvatar.AddComponent<BoxCollider>();
+			(p.ImageAvatar.collider as BoxCollider).size = new Vector3(16, 16, 16);
+			p.ImageAvatar.collider.isTrigger = true;
 			yield return new WaitForSeconds(5);
 		}
 	}
