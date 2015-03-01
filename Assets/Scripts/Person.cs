@@ -41,6 +41,7 @@ public class Person : MonoBehaviour {
 
 	void Update() {
 		Progress += 0.99f * Time.deltaTime;
+
 		if (Progress >= 1) {
 			MoveToNext();
 			StartMe();
