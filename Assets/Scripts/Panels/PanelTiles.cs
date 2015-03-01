@@ -11,8 +11,6 @@ public class PanelTiles : MonoBehaviour {
 
 		TilePrefab.SetActive(true);
 
-		Debug.Log("Preparing tiles, count: " + tiles.Count);
-
 		float panelTilesW = GetComponent<RectTransform>().rect.width;
 		float panelTilesH = GetComponent<RectTransform>().rect.height;
 
