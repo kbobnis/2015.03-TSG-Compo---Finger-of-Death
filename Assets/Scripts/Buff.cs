@@ -23,7 +23,7 @@ public class Buff : MonoBehaviour {
 		Debug.Log (X + ", " + Y);
 	}
 
-	void OnMouseDown (){
+	public void GainBuff (){
 		Debug.Log ("Gain: time: " + _Time + ", life: " + DeltaLife + ", speed: " + DeltaSpeed + ", points: " + DeltaPoints + ", immortality: " + Undestructable);
 		Destroy (gameObject);
 	}

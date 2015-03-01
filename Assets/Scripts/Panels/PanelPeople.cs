@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class PanelPeople : MonoBehaviour {
 
@@ -10,7 +10,6 @@ public class PanelPeople : MonoBehaviour {
 	private List<GameObject> People = new List<GameObject>();
 
 	internal void SpawnPeople (List<PersonTemplate> personTemplates){
-
 		PersonPrefab.SetActive(true);
 		int i=0;
 		foreach(PersonTemplate pt in personTemplates){
@@ -22,7 +21,15 @@ public class PanelPeople : MonoBehaviour {
 			int personW = (int)(personGameObject.GetComponent<Image>().sprite.rect.width * AspectRatioKeeper.ActualScale);
 			int personH = (int)(personGameObject.GetComponent<Image>().sprite.rect.height * AspectRatioKeeper.ActualScale);
 			personGameObject.AddComponent<RealSize>().SetSize(personW, personH);
+			personGameObject.AddComponent<Rigidbody>();
+			personGameObject.rigidbody.isKinematic = true;
+			personGameObject.rigidbody.useGravity = false;
+			personGameObject.AddComponent<BoxCollider>();
+			(personGameObject.collider as BoxCollider).size = new Vector3(16, 16, 16);
+			personGameObject.collider.isTrigger = true;
 			personGameObject.GetComponent<Person>().StartMe();
+			personGameObject.AddComponent<TouchToKill>().Prepare() ;
+
 			People.Add(personGameObject);
 		}
 
@@ -31,42 +38,19 @@ public class PanelPeople : MonoBehaviour {
 		PersonPrefab.SetActive(false);
 	}
 
-	void SpawnBuff (){
+void SpawnBuff (){
 		GameObject buffGameObject = Instantiate (PersonPrefab) as GameObject;
 		buffGameObject.transform.parent = transform;
 		buffGameObject.name = "buff";
-		int posX = Random.Range (0, Game.Me.PanelMinigame.GetComponent<PanelMinigame> ().PanelTiles.GetComponent<PanelTiles> ().Tiles.Count);
-		int posY = Random.Range (0, Game.Me.PanelMinigame.GetComponent<PanelMinigame> ().PanelTiles.GetComponent<PanelTiles> ().Tiles[0].Count);
+		int posX = Random.Range (0, 7);
+		int posY = Random.Range (0, 5);
 		buffGameObject.name = "buff x: "+posX+", y: "+posY;
 		buffGameObject.AddComponent<Buff> ().Prepare (posX, posY);
 		int buffW = (int)(buffGameObject.GetComponent<Image>().sprite.rect.width * AspectRatioKeeper.ActualScale);
 		int buffH = (int)(buffGameObject.GetComponent<Image>().sprite.rect.height * AspectRatioKeeper.ActualScale);
+		buffGameObject.AddComponent<BoxCollider>();
+		(buffGameObject.collider as BoxCollider).size = new Vector3(16, 16, 16);
+		buffGameObject.collider.isTrigger = true;
 		buffGameObject.AddComponent<RealSize>().SetSize(buffW, buffH);
 	}
-
-	public bool CheckPeoplePos (Tile t){
-		int x = 0, y = 0;
-
-		foreach (List<Tile> tileRow in Game.Me.PanelMinigame.GetComponent<PanelMinigame>().PanelTiles.GetComponent<PanelTiles>().Tiles) {
-			if(tileRow.Contains (t)){
-				x = Game.Me.PanelMinigame.GetComponent<PanelMinigame>().PanelTiles.GetComponent<PanelTiles>().Tiles.IndexOf (tileRow);
-				y = Game.Me.PanelMinigame.GetComponent<PanelMinigame>().PanelTiles.GetComponent<PanelTiles>().Tiles[x].IndexOf(t);
-				break;
-			}
-		}
-
-		foreach (GameObject person in People) {
-			if (person.GetComponent<Person> ().X == y &&
-				person.GetComponent<Person> ().Y == x )
-				return false;
-		}
-		return true;
-	}
-
-	void Update() {
-		 
-		//foreach()
-		//check collisions
-	}
-
 }
