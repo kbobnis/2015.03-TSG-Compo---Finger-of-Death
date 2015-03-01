@@ -11,7 +11,7 @@ public class Buff : MonoBehaviour {
 	public bool Undestructable;
 
 
-	public void GainBuff (){
+	public void OnTriggerEnter (){
 		Debug.Log ("Gain: time: " + Time + ", life: " + DeltaLife + ", speed: " + DeltaSpeed + ", points: " + DeltaPoints + ", immortality: " + Undestructable);
 		Destroy (gameObject);
 	}

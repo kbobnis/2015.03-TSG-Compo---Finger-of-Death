@@ -38,13 +38,14 @@ public class PanelPeople : MonoBehaviour {
 		PersonPrefab.SetActive(false);
 	}
 
-void SpawnBuff (){
+public void SpawnBuff (){
 		GameObject buffGameObject = Instantiate (PersonPrefab) as GameObject;
 		buffGameObject.transform.parent = transform;
 		buffGameObject.name = "buff";
 		float posX = Random.Range (0, 5)+0.5f;
 		float posY = Random.Range (0, 7)+0.5f;
 
+		buffGameObject.AddComponent<Buff> ();
 		buffGameObject.GetComponent<Image> ().sprite = SpriteManager.BuffSprite;
 
 		buffGameObject.name = "buff x: "+posX+", y: "+posY;
@@ -52,6 +53,9 @@ void SpawnBuff (){
 		int buffH = (int)(buffGameObject.GetComponent<Image>().sprite.rect.height * AspectRatioKeeper.ActualScale);
 		buffGameObject.AddComponent<RealSize>().SetSize(buffW, buffH);
 		buffGameObject.AddComponent<InGamePos>().UpdatePos(posX, posY);
+		buffGameObject.AddComponent<Rigidbody>();
+		buffGameObject.rigidbody.isKinematic = true;
+		buffGameObject.rigidbody.useGravity = false;
 		buffGameObject.AddComponent<BoxCollider>();
 		(buffGameObject.collider as BoxCollider).size = new Vector3(16, 16, 16);
 		buffGameObject.collider.isTrigger = true;
