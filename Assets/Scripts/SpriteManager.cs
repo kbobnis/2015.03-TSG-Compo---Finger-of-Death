@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class SpriteManager : MonoBehaviour {
 
 	public static Sprite TileEdge, TileCross, TileSide, TileSlantUp, TileSlantDown, ArrowUp, ArrowDown;
+	public static Sprite BuffSprite;
 	private static List<Sprite> People = new List<Sprite>();
 
 	
@@ -17,6 +18,7 @@ public class SpriteManager : MonoBehaviour {
 		TileSlantDown = Resources.Load<Sprite>("Images/tileSlantDown");
 		ArrowUp = Resources.Load<Sprite>("Images/arrowUp");
 		ArrowDown = Resources.Load<Sprite>("Images/arrowDown");
+		BuffSprite = Resources.Load<Sprite> ("Images/testBuff");;
 
 		People.Add(Resources.Load<Sprite>("Images/person1"));
 		People.Add(Resources.Load<Sprite>("Images/person2"));
