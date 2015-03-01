@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class Tile : MonoBehaviour{
 
-	public GameObject GameObjectImage;
+	public GameObject GameObjectImage, GameObjectImageArrow, GameObjectImageBorder;
 	private TileTemplate TileTemplate;
 
 	public void Prepare(TileTemplate tt) {
@@ -19,6 +19,17 @@ public class Tile : MonoBehaviour{
 		GameObjectImage.GetComponent<Image>().sprite = TileTemplate.TileType.Image;
 		GameObjectImage.transform.rotation = new Quaternion();
 		GameObjectImage.transform.Rotate(0, 0, TileTemplate.Rotation.Value * -90);
+		
+		GameObjectImageBorder.GetComponent<Image>().color = Color.green;
+		GameObjectImageBorder.SetActive(TileTemplate.TileType.AfterChange != null);
+		
+		
+		GameObjectImageArrow.SetActive(TileTemplate.TileType.ModificatorImage != null);
+		if (TileTemplate.TileType.ModificatorImage != null) {
+			GameObjectImageArrow.GetComponent<Image>().sprite = TileTemplate.TileType.ModificatorImage;
+			GameObjectImageArrow.transform.rotation = new Quaternion();
+			GameObjectImageArrow.transform.Rotate(0, 0, TileTemplate.Rotation.Value * -90);
+		}
 	}
 
 	public void ChangeVersion(){

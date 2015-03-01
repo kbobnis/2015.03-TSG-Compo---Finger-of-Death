@@ -10,6 +10,7 @@ public class TileType {
 	public readonly string Id;
 	private Sprite _Image;
 	public TileType AfterChange;
+	public readonly Sprite ModificatorImage;
 
 	public Sprite Image {
 		get { return _Image; }
@@ -22,12 +23,12 @@ public class TileType {
 	public static readonly TileType Cross = new TileType("Cross", SpriteManager.TileCross,
 		new Dictionary<Direction, Direction> { { Direction.E, Direction.W }, { Direction.W, Direction.E }, { Direction.S, Direction.N }, { Direction.N, Direction.S } });
 	public static readonly TileType SideUp = new TileType("SideUp", SpriteManager.TileSide, 
-		new Dictionary<Direction, Direction> { { Direction.W, Direction.N }, { Direction.N, Direction.W }, { Direction.S, Direction.W } });
+		new Dictionary<Direction, Direction> { { Direction.W, Direction.N }, { Direction.N, Direction.W }, { Direction.S, Direction.W } }, SpriteManager.ArrowUp);
 	public static readonly TileType SideDown = new TileType("SideDown", SpriteManager.TileSide,
-		new Dictionary<Direction, Direction> { { Direction.W, Direction.S }, { Direction.N, Direction.W }, { Direction.S, Direction.W } });
-	public static readonly TileType SlantUp = new TileType("SlantUp", SpriteManager.TileSlant,
+		new Dictionary<Direction, Direction> { { Direction.W, Direction.S }, { Direction.N, Direction.W }, { Direction.S, Direction.W } }, SpriteManager.ArrowDown);
+	public static readonly TileType SlantUp = new TileType("SlantUp", SpriteManager.TileSlantUp,
 		new Dictionary<Direction, Direction> { { Direction.N, Direction.W }, { Direction.W, Direction.N }, { Direction.S, Direction.E }, { Direction.E, Direction.S } });
-	public static readonly TileType SlantDown = new TileType("SlantDown", SpriteManager.TileSlant,
+	public static readonly TileType SlantDown = new TileType("SlantDown", SpriteManager.TileSlantDown,
 		new Dictionary<Direction, Direction> { { Direction.W, Direction.S }, { Direction.S, Direction.W }, { Direction.N, Direction.E }, { Direction.E, Direction.N } });
 
 	static TileType() {
@@ -37,14 +38,11 @@ public class TileType {
 		SlantDown.AfterChange = SlantUp;
 	}
 
-	private TileType(string id, Sprite image,  Dictionary<Direction, Direction> path) {
+	private TileType(string id, Sprite image,  Dictionary<Direction, Direction> path, Sprite modificatiorImage=null) {
 		Id = id;
 		_Image = image;
 		Paths = path;
-	}
-
-	internal static TileType GetRandom() {
-		return FromJsonInt(UnityEngine.Random.Range(0, 2));
+		ModificatorImage = modificatiorImage;
 	}
 
 	internal static TileType FromJsonInt(int p) {

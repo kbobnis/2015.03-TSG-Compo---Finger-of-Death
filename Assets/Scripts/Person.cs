@@ -41,6 +41,10 @@ public class Person : MonoBehaviour {
 
 	void Update() {
 		Progress += 0.99f * Time.deltaTime;
+		if (Progress >= 1) {
+			MoveToNext();
+			StartMe();
+		}
 
 		Vector2 offset = StartDir.Offset() + (DestDir.Offset() - StartDir.Offset())*Progress;
 		if (offset.x < 0) {
@@ -51,12 +55,7 @@ public class Person : MonoBehaviour {
 		}
 		GetComponent<InGamePos>().UpdatePos(X + offset.x, Y + offset.y - 0.1f); //-0.1f to make an illusion that he is going on path
 
-		if (Progress >= 1) {
-			Debug.Log("I was on " + X + ", " + Y + ", direction: " + DestDir + " now moving on to next;");
-			MoveToNext();
-			Debug.Log("Moved to " + X + ", " + Y + ", start: " + StartDir);
-			StartMe();
-		}
+		
 		
 	}
 }

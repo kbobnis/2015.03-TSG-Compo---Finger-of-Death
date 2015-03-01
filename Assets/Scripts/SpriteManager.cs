@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class SpriteManager : MonoBehaviour {
 
-	public static Sprite TileEdge, TileCross, TileSide, TileSlant, ArrowUp, ArrowDown;
+	public static Sprite TileEdge, TileCross, TileSide, TileSlantUp, TileSlantDown, ArrowUp, ArrowDown;
 	private static List<Sprite> People = new List<Sprite>();
 
 	
@@ -13,7 +13,8 @@ public class SpriteManager : MonoBehaviour {
 		TileEdge = Resources.Load<Sprite>("Images/tileEdge");
 		TileCross = Resources.Load<Sprite>("Images/tileCross");
 		TileSide = Resources.Load<Sprite>("Images/tileSide");
-		TileSlant = Resources.Load<Sprite>("Images/tileSlant");
+		TileSlantUp = Resources.Load<Sprite>("Images/tileSlant");
+		TileSlantDown = Resources.Load<Sprite>("Images/tileSlantDown");
 		ArrowUp = Resources.Load<Sprite>("Images/arrowUp");
 		ArrowDown = Resources.Load<Sprite>("Images/arrowDown");
 
