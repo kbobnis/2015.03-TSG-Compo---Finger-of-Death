@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class PanelTiles : MonoBehaviour {
 
 	public GameObject TilePrefab;
-	public List<List<Tile>> Tiles;
+	private List<List<Tile>> Tiles;
 
 	internal void Prepare(List<List<TileTemplate>> tiles) {
 
@@ -35,5 +35,12 @@ public class PanelTiles : MonoBehaviour {
 			Tiles.Add(lineOfTiles);
 		};
 		TilePrefab.SetActive(false);
+	}
+
+	internal Tile GetTile(int X, int Y) {
+		if (Tiles.Count <= Y || Tiles[(int)Y].Count <= X || X < 0 || Y < 0) {
+			throw new System.Exception("There is no tile of number: " + X + ", " + Y);
+		}
+		return Tiles[(int)Y][(int)X];
 	}
 }

@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class PanelPeople : MonoBehaviour {
 
@@ -23,35 +24,12 @@ public class PanelPeople : MonoBehaviour {
 			int personH = (int)(personGameObject.GetComponent<Image>().sprite.rect.height * AspectRatioKeeper.ActualScale);
 			personGameObject.AddComponent<RealSize>().SetSize(personW, personH);
 			personGameObject.GetComponent<Person>().StartMe();
+			personGameObject.AddComponent<TouchToKill>().Prepare() ;
+
 			People.Add(personGameObject);
 		}
 
 		PersonPrefab.SetActive(false);
-	}
-
-	public bool CheckPeoplePos (Tile t){
-		int x = 0, y = 0;
-
-		foreach (List<Tile> tileRow in Game.Me.PanelMinigame.GetComponent<PanelMinigame>().PanelTiles.GetComponent<PanelTiles>().Tiles) {
-			if(tileRow.Contains (t)){
-				x = Game.Me.PanelMinigame.GetComponent<PanelMinigame>().PanelTiles.GetComponent<PanelTiles>().Tiles.IndexOf (tileRow);
-				y = Game.Me.PanelMinigame.GetComponent<PanelMinigame>().PanelTiles.GetComponent<PanelTiles>().Tiles[x].IndexOf(t);
-				break;
-			}
-		}
-
-		foreach (GameObject person in People) {
-			if (person.GetComponent<Person> ().X == y &&
-				person.GetComponent<Person> ().Y == x )
-				return false;
-		}
-		return true;
-	}
-
-	void Update() {
-		 
-		//foreach()
-		//check collisions
 	}
 
 }
