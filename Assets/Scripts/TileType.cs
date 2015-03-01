@@ -28,7 +28,7 @@ public class TileType {
 	public static readonly TileType SlantUp = new TileType("SlantUp", SpriteManager.TileSlant,
 		new Dictionary<Direction, Direction> { { Direction.N, Direction.W }, { Direction.W, Direction.N }, { Direction.S, Direction.E }, { Direction.E, Direction.S } });
 	public static readonly TileType SlantDown = new TileType("SlantDown", SpriteManager.TileSlant,
-		new Dictionary<Direction, Direction> { { Direction.N, Direction.W }, { Direction.W, Direction.N }, { Direction.S, Direction.E }, { Direction.E, Direction.S } });
+		new Dictionary<Direction, Direction> { { Direction.W, Direction.S }, { Direction.S, Direction.W }, { Direction.N, Direction.E }, { Direction.E, Direction.N } });
 
 	static TileType() {
 		SideUp.AfterChange = SideDown;
@@ -97,10 +97,22 @@ public static class DirectionExtension
 			case Direction.E:
 				return Direction.S;
 			default:
-				Debug.LogError("Error in Direction Rotate");
-				break;
+				throw new Exception("There is no case for direction: " + d);
 		}
-		return d;
+	}
+	public static Vector2 Offset(this Direction d) {
+		switch (d) {
+			case Direction.N: return new Vector2(0.5f, 0);
+			case Direction.E: return new Vector2(1f, 0.5f);
+			case Direction.S: return new Vector2(0.5f, 1);
+			case Direction.W: return new Vector2(0, 0.5f);
+			default:
+				throw new Exception("There is no case for direction: " + d);
+
+		}
+	}
+	public static Direction Opposite(this Direction d) {
+		return d.ApplyRotation(Rotation._180);
 	}
 
 }
@@ -131,11 +143,11 @@ public class Rotation {
 			case 3: return _0;
 			case 8: 
 			case 12: 
-			case 4: return _270;
+			case 4: return _90;
 			case 9: 
 			case 5: return _180; 
 			case 10: 
-			case 6: return Rotation._90;
+			case 6: return Rotation._270;
 			default: throw new Exception("ticket out of range");
 		}
 	}

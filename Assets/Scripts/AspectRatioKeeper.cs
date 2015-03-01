@@ -9,7 +9,7 @@ public class AspectRatioKeeper : MonoBehaviour {
 	private int LastWidth, LastHeight;
 	private float Aspect;
 	private static float _ActualScale;
-	private bool ToSendScaleChanged = false;
+	private static bool ToSendScaleChanged = false;
 
 	public static float ActualScale {
 		get { return _ActualScale; }
@@ -28,7 +28,6 @@ public class AspectRatioKeeper : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		FixAspect();
-
 	}
 
 	private void FixAspect() {

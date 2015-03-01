@@ -17,7 +17,6 @@ public class MapReader {
 			for (int x = 0; x < width; x++){
 
 				int id = N["layers"][0]["data"][y * width + x].AsInt;
-
 				TileTemplate tt = TileTemplate.FromJsonInt(id);
 				thisRow.Add(tt);
 			}

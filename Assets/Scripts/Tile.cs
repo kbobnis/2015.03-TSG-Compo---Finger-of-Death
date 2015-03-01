@@ -8,28 +8,36 @@ using UnityEngine.UI;
 public class Tile : MonoBehaviour{
 
 	public GameObject GameObjectImage;
-	private TileTemplate template;
+	private TileTemplate TileTemplate;
 
 	public void Prepare(TileTemplate tt) {
-		template = tt;
+		TileTemplate = tt;
 		UpdateImage();
 	}
 
 	private void UpdateImage() {
-		GameObjectImage.GetComponent<Image>().sprite = template.TileType.Image;
+		GameObjectImage.GetComponent<Image>().sprite = TileTemplate.TileType.Image;
 		GameObjectImage.transform.rotation = new Quaternion();
-		GameObjectImage.transform.Rotate(0, 0, template.Rotation.Value * 90);
+		GameObjectImage.transform.Rotate(0, 0, TileTemplate.Rotation.Value * -90);
 	}
 
 	public void ChangeVersion(){
 		try {
-			if (template.TileType.AfterChange != null) {
-				template.TileType = template.TileType.AfterChange;
+			if (TileTemplate.TileType.AfterChange != null) {
+				TileTemplate.TileType = TileTemplate.TileType.AfterChange;
 				UpdateImage();
 			}
 		} catch (Exception e) {
 			Debug.Log("Exception: " + e);
 		}
+	}
+
+	internal Direction GetDestination(Direction StartDir) {
+		Dictionary<Direction, Direction> path = TileTemplate.TileType.Paths.ApplyRotation(TileTemplate.Rotation);
+		if (!path.ContainsKey(StartDir)) {
+			throw new Exception("There is no start dir: " + StartDir + " in tile: " + gameObject.name);
+		}
+		return path[StartDir];
 	}
 }
 

@@ -1,31 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class InGamePos : MonoBehaviour {
 
-	public void Set(float x, float y, int originalW=0, int originalH=0, Pivot p=Pivot.MiddleMiddle){
+	internal void UpdatePos(float x, float y) {
+		
 		float panelTilesW = Game.Me.PanelMinigame.GetComponent<PanelMinigame>().PanelTiles.GetComponent<RectTransform>().rect.width;
 		float panelTilesH = Game.Me.PanelMinigame.GetComponent<PanelMinigame>().PanelTiles.GetComponent<RectTransform>().rect.height;
 
 		float tileW = panelTilesW/5f;
 		float tileH = panelTilesH/7f;
 
-		float elW = originalW == 0 ? tileW : originalW;
-		float elH = originalH == 0 ? tileH : originalH;
+		GetComponent<RectTransform>().localPosition = new Vector3(tileW * x - panelTilesW / 2, -tileH * y + panelTilesH/2);
+	}
 
-		float offsetX = 0;
-		float offsetY = 0;
-		if (p == Pivot.TopLeft) {
-			offsetX = - (tileW / 2 - elW / 2) - elW/2;
-			offsetY =  + (tileH/2 - elH/2)  + elH/2;
+	internal Tile GetMyTile(int X, int Y) {
+		List<List<Tile>> tiles = Game.Me.PanelMinigame.GetComponent<PanelMinigame>().PanelTiles.GetComponent<PanelTiles>().Tiles;
+		if (tiles.Count <= Y || tiles[(int)Y].Count <= X || X < 0 || Y < 0){
+			throw new System.Exception("There is no tile of number: " + X + ", " + Y);
 		}
-
-		float offsetMinX = -panelTilesW / 2 +(tileW/2-elW/2) + tileW * x +offsetX ;
-		float offsetMinY = panelTilesH / 2 - tileH * y - elH + offsetY -(tileH/2-elH/2);
-		GetComponent<RectTransform>().offsetMin = new Vector2(offsetMinX, offsetMinY);
-		float offsetMaxX = -panelTilesW / 2 + tileW * x + elW + offsetX + (tileW/2-elW/2);
-		float offsetMaxY = panelTilesH / 2 - tileH * y + offsetY - (tileH/2-elH/2);
-		GetComponent<RectTransform>().offsetMax = new Vector2(offsetMaxX, offsetMaxY);
+		return tiles[(int)Y][(int)X];
 	}
 }
 

@@ -12,7 +12,7 @@
          "y":0
         }, 
         {
-         "data":[14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14],
+         "data":[0, 0, 0, 0, 14, 0, 0, 14, 0, 0, 0, 0, 14, 14, 0, 0, 14, 0, 14, 0, 14, 14, 0, 14, 0, 14, 14, 14, 14, 0, 0, 0, 0, 0, 0],
          "height":7,
          "name":"people",
          "opacity":1,
@@ -47,18 +47,18 @@
         }, 
         {
          "firstgid":14,
-         "image":"..\/Images\/personTop.png",
-         "imageheight":64,
-         "imagewidth":64,
+         "image":"..\/Images\/person1.png",
+         "imageheight":38,
+         "imagewidth":31,
          "margin":0,
-         "name":"people",
+         "name":"person1",
          "properties":
             {
 
             },
-         "spacing":32,
-         "tileheight":64,
-         "tilewidth":64
+         "spacing":0,
+         "tileheight":38,
+         "tilewidth":31
         }],
  "tilewidth":64,
  "version":1,

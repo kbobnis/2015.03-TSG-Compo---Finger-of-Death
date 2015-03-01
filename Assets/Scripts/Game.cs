@@ -17,14 +17,20 @@ public class Game : MonoBehaviour {
 	}
 
 	public void StartGame (){
-		PanelMinigame.SetActive (true);
-		PanelMainMenu.SetActive (false);
-		
 
-		List<List<TileTemplate>> tiles =  MapReader.LoadMapFromJson(Resources.Load<TextAsset>("Maps/testmap").text);
-		List<PersonTemplate> personTemplates = MapReader.LoadPeopleFromJson(Resources.Load<TextAsset>("Maps/testmap").text);
-		
-		PanelMinigame.GetComponent<PanelMinigame>().Prepare(tiles, personTemplates);
+		try {
+
+			PanelMinigame.SetActive(true);
+			PanelMainMenu.SetActive(false);
+
+			List<List<TileTemplate>> tiles = MapReader.LoadMapFromJson(Resources.Load<TextAsset>("Maps/testmap").text);
+			List<PersonTemplate> personTemplates = MapReader.LoadPeopleFromJson(Resources.Load<TextAsset>("Maps/testmap").text);
+
+			PanelMinigame.GetComponent<PanelMinigame>().Prepare(tiles, personTemplates);
+
+		} catch (System.Exception e) {
+			Debug.Log("Exception: " + e);
+		}
 	}
 
 	public void EndGame (){
