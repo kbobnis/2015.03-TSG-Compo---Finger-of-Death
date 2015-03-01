@@ -1,8 +1,8 @@
 fileFormatVersion: 2
-guid: 45a05bd1c1a219e44b863caf7d7983cd
+guid: a16b57aa76fbdd043b21d98d1ce6cad1
 TextureImporter:
   fileIDToRecycleName:
-    21300000: arrowUp
+    21300000: timeIcon
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -26,9 +26,9 @@ TextureImporter:
   maxTextureSize: 1024
   textureSettings:
     filterMode: 0
-    aniso: 1
+    aniso: -1
     mipBias: -1
-    wrapMode: 1
+    wrapMode: -1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50

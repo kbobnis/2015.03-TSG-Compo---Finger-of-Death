@@ -7,6 +7,7 @@ public class SpriteManager : MonoBehaviour {
 	public static Sprite TileEdge, TileCross, TileSide, TileSlantUp, TileSlantDown, ArrowUp, ArrowDown;
 	public static Sprite BuffSprite;
 	private static List<Sprite> People = new List<Sprite>();
+	public static Sprite Boss;
 
 	
 
@@ -18,7 +19,9 @@ public class SpriteManager : MonoBehaviour {
 		TileSlantDown = Resources.Load<Sprite>("Images/tileSlantDown");
 		ArrowUp = Resources.Load<Sprite>("Images/arrowUp");
 		ArrowDown = Resources.Load<Sprite>("Images/arrowDown");
-		BuffSprite = Resources.Load<Sprite> ("Images/treasure");;
+		BuffSprite = Resources.Load<Sprite> ("Images/treasure");
+		Boss = Resources.Load<Sprite>("Images/boss");
+
 
 		People.Add(Resources.Load<Sprite>("Images/person1"));
 		People.Add(Resources.Load<Sprite>("Images/person2"));
@@ -30,4 +33,5 @@ public class SpriteManager : MonoBehaviour {
 
 	}
 }
+
 

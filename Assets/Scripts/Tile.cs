@@ -22,7 +22,7 @@ public class Tile : MonoBehaviour{
 		GameObjectImage.transform.Rotate(0, 0, TileTemplate.Rotation.Value * -90);
 		
 		GameObjectImageBorder.GetComponent<Image>().color = ChangeLocked>0?Color.red:Color.green;
-		GameObjectImageBorder.SetActive(TileTemplate.TileType.AfterChange != null);
+		GameObjectImageBorder.SetActive(false); //TileTemplate.TileType.AfterChange != null);
 		
 		
 		GameObjectImageArrow.SetActive(TileTemplate.TileType.ModificatorImage != null);

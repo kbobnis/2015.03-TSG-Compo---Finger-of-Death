@@ -28,10 +28,13 @@ public class Person : MonoBehaviour
 		_CollisionGroup = collisionGroup;
 	}
 
-	internal void Prepare(int x, int y) {
+	internal void Prepare(int x, int y, CharacterType ct=CharacterType.Weak) {
 		X = x;
 		Y = y;
 		Sprite s = SpriteManager.RandomPerson();
+		if (ct == CharacterType.Player) {
+			s = SpriteManager.Boss;
+		}
 		ImageAvatar.GetComponent<Image>().sprite = s;
 		gameObject.AddComponent<InGamePos>();
 		GetComponent<InGamePos>().UpdatePos(X, Y);
@@ -124,7 +127,7 @@ public class Person : MonoBehaviour
 	}
 
 	private void UpdateImage() {
-		ImageAvatar.GetComponent<Image>().color = _CollisionGroup==CollisionGroup.Player?Color.red:ShadeOfCones.Count > 0 ? Color.yellow : Color.white;
+		ImageAvatar.GetComponent<Image>().color = _CollisionGroup==CollisionGroup.Player?Color.white:ShadeOfCones.Count > 0 ? Color.yellow : Color.white;
 	}
 
 	internal void SomeoneSeesMe(Person p) {
