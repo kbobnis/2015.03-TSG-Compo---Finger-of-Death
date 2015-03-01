@@ -74,6 +74,10 @@ public class PanelPeople : MonoBehaviour {
 		foreach (GameObject p in People) {
 			p.GetComponent<Person>().ShadeOfCones.Remove(personGo.GetComponent<Person>());
 		}
+		foreach (GameObject b in Game.Me.PanelMinigame.GetComponent<PanelMinigame>().PanelBonuses.GetComponent<PanelBonuses>().Bonuses) {
+			b.GetComponent<Person>().ShadeOfCones.Remove(personGo.GetComponent<Person>());
+		}
+
 		People.Remove(personGo);
 
 	}

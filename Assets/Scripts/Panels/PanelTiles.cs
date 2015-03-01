@@ -5,9 +5,11 @@ using System.Collections.Generic;
 public class PanelTiles : MonoBehaviour {
 
 	public GameObject TilePrefab;
-	private List<List<Tile>> Tiles;
+	private List<List<Tile>> Tiles = new List<List<Tile>>();
 
 	internal void Prepare(List<List<TileTemplate>> tiles) {
+
+		
 
 		TilePrefab.SetActive(true);
 
@@ -40,5 +42,13 @@ public class PanelTiles : MonoBehaviour {
 			throw new System.Exception("There is no tile of number: " + X + ", " + Y);
 		}
 		return Tiles[(int)Y][(int)X];
+	}
+
+	internal void ClearTiles() {
+		foreach (List<Tile> ts in Tiles) {
+			foreach (Tile t in ts) {
+				Destroy(t.gameObject);
+			}
+		}
 	}
 }

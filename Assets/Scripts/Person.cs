@@ -24,7 +24,7 @@ public class Person : MonoBehaviour
 	public void SetStats(int health, int attackPower, float speed, CollisionGroup collisionGroup){
 		Health = health;
 		AttackPower = attackPower;
-		Speed = speed;
+		Speed = speed + (speed>0?UnityEngine.Random.Range(-0.1f, 0.1f):0);
 		_CollisionGroup = collisionGroup;
 	}
 
@@ -54,6 +54,7 @@ public class Person : MonoBehaviour
 
 	void OnDestroy() {
 		Game.Me.PanelMinigame.GetComponent<PanelMinigame>().PanelPeople.GetComponent<PanelPeople>().PersonDied(gameObject);
+		Game.Me.PanelMinigame.GetComponent<PanelMinigame>().PanelBonuses.GetComponent<PanelBonuses>().Bonuses.Remove(gameObject);
 		Game.Me.PanelMinigame.GetComponent<PanelMinigame>().PanelTiles.GetComponent<PanelTiles>().GetTile((int)X, (int)Y).Unlock();
 	}
 
@@ -127,7 +128,7 @@ public class Person : MonoBehaviour
 	}
 
 	private void UpdateImage() {
-		ImageAvatar.GetComponent<Image>().color = _CollisionGroup==CollisionGroup.Player?Color.white:ShadeOfCones.Count > 0 ? Color.yellow : Color.white;
+		ImageAvatar.GetComponent<Image>().color = _CollisionGroup==CollisionGroup.Player?Color.white:ShadeOfCones.Count > 0 ? Color.red : Color.white;
 	}
 
 	internal void SomeoneSeesMe(Person p) {

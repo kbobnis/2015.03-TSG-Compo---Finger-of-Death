@@ -40,6 +40,7 @@ public class Game : MonoBehaviour {
 		PanelMinigame.SetActive (false);
 		PanelMinigame.GetComponent<PanelMinigame>().PanelPeople.GetComponent<PanelPeople>().ClearBoard();
 		PanelMinigame.GetComponent<PanelMinigame>().PanelBonuses.GetComponent<PanelBonuses>().ClearingBonuses();
+		PanelMinigame.GetComponent<PanelMinigame>().PanelTiles.GetComponent<PanelTiles>().ClearTiles();
 	}
 }
 

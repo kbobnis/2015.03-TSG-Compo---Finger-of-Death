@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class PanelBonuses : MonoBehaviour {
 
 	public GameObject PersonPrefab;
-	private List<GameObject> Bonuses;
+	public List<GameObject> Bonuses;
 	float timer = 0;
 	internal void Prepare()
 	{
