@@ -34,6 +34,25 @@ public class PanelPeople : MonoBehaviour {
 		PersonPrefab.SetActive(false);
 	}
 
+	public bool CheckPeoplePos (Tile t){
+		int x = 0, y = 0;
+
+		foreach (List<Tile> tileRow in Game.Me.PanelMinigame.GetComponent<PanelMinigame>().PanelTiles.GetComponent<PanelTiles>().Tiles) {
+			if(tileRow.Contains (t)){
+				x = Game.Me.PanelMinigame.GetComponent<PanelMinigame>().PanelTiles.GetComponent<PanelTiles>().Tiles.IndexOf (tileRow);
+				y = Game.Me.PanelMinigame.GetComponent<PanelMinigame>().PanelTiles.GetComponent<PanelTiles>().Tiles[x].IndexOf(t);
+				break;
+			}
+		}
+
+		foreach (GameObject person in People) {
+			if (person.GetComponent<Person> ().X == y &&
+				person.GetComponent<Person> ().Y == x )
+				return false;
+		}
+		return true;
+	}
+
 	void Update() {
 		 
 		//foreach()

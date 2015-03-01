@@ -34,7 +34,7 @@ public class Tile : MonoBehaviour{
 
 	public void ChangeVersion(){
 		try {
-			if (TileTemplate.TileType.AfterChange != null) {
+			if (TileTemplate.TileType.AfterChange != null && Game.Me.PanelMinigame.GetComponent<PanelMinigame>().PanelPeople.GetComponent<PanelPeople>().CheckPeoplePos (this)) {
 				TileTemplate.TileType = TileTemplate.TileType.AfterChange;
 				UpdateImage();
 			}
@@ -42,6 +42,7 @@ public class Tile : MonoBehaviour{
 			Debug.Log("Exception: " + e);
 		}
 	}
+
 
 	internal Direction GetDestination(Direction StartDir) {
 		Dictionary<Direction, Direction> path = TileTemplate.TileType.Paths.ApplyRotation(TileTemplate.Rotation);
