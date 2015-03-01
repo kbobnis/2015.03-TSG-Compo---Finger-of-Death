@@ -4,16 +4,19 @@ using UnityEngine.UI;
 
 public class Person : MonoBehaviour {
 
+	public GameObject ImageAvatar;
+
 	public float X, Y;
 	public Direction StartDir = Direction.S;
 	public Direction DestDir;
 	public float Progress = 0;
+	public DirectionListener DirectionListener;
 
 	internal void Prepare(int x, int y) {
 		X = x;
 		Y = y;
 		Sprite s = SpriteManager.RandomPerson();
-		GetComponent<Image>().sprite = s;
+		ImageAvatar.GetComponent<Image>().sprite = s;
 		gameObject.AddComponent<InGamePos>();
 		GetComponent<InGamePos>().UpdatePos(X, Y);
 		StartMe();
@@ -25,6 +28,11 @@ public class Person : MonoBehaviour {
 		Tile t = Game.Me.PanelMinigame.GetComponent<PanelMinigame>().PanelTiles.GetComponent<PanelTiles>().GetTile((int)X, (int)Y);
 		DestDir = t.GetDestination(StartDir);
 		Progress = 0;
+
+		if (DirectionListener != null) {
+			Debug.Log("Start dir: " + StartDir + ", dest dir: " + DestDir);
+			DirectionListener.DirectionChanged(StartDir, DestDir);
+		}
 	}
 
 	void OnDestroy() {
@@ -37,7 +45,7 @@ public class Person : MonoBehaviour {
 		Game.Me.PanelMinigame.GetComponent<PanelMinigame>().PanelTiles.GetComponent<PanelTiles>().GetTile((int)X,(int)Y).Unlock();
 
 		switch (DestDir) {
-			case Direction.N: Y--;  break;
+			case Direction.N: Y--; break;
 			case Direction.E: X++; break;
 			case Direction.S: Y++; break;
 			case Direction.W: X--; break;
@@ -48,6 +56,8 @@ public class Person : MonoBehaviour {
 		//lock this tile from changing version
 		Game.Me.PanelMinigame.GetComponent<PanelMinigame>().PanelTiles.GetComponent<PanelTiles>().GetTile((int)X, (int)Y).Lock();
 		StartDir = DestDir.Opposite();
+		
+
 	}
 
 	void Update() {
@@ -66,8 +76,5 @@ public class Person : MonoBehaviour {
 			offset.y++;
 		}
 		GetComponent<InGamePos>().UpdatePos(X + offset.x, Y + offset.y - 0.1f); //-0.1f to make an illusion that he is going on path
-
-		
-		
 	}
 }

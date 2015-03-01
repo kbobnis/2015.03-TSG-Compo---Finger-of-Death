@@ -73,6 +73,15 @@ public enum Direction
 }
 public static class DirectionExtension
 {
+	public static int Angle(this Direction d, Direction d2) {
+		Vector2 offset = d.Offset();
+		Vector2 offset2 = d2.Offset();
+		Vector2 dir = offset2 - offset;
+		double angle = Math.Atan2(dir.x, -dir.y) * 180 / Math.PI;
+		Debug.Log("Log angle from " + d + "("+offset+") to " + d2 + "("+offset2+") ("+dir+") is: " + angle);
+		return (int)angle;
+	}
+
 	public static Direction ApplyRotation(this Direction d, Rotation r)
 	{
 		Direction newDir = d;

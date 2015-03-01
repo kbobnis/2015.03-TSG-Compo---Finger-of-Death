@@ -1,8 +1,9 @@
 fileFormatVersion: 2
-guid: 43cd624a3268204419b8b845752093df
+guid: 4658c87c9947658418616f495a7b9612
 TextureImporter:
   fileIDToRecycleName:
-    21300000: tileSlantDown
+    21300000: tile03
+    21300002: tileSlantDown
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0

@@ -18,9 +18,12 @@ public class PanelPeople : MonoBehaviour {
 			GameObject personGameObject = Instantiate (PersonPrefab) as GameObject;
 			personGameObject.transform.parent = transform;
 			personGameObject.name = "person: " + i++ + ", x: " + pt.PositionX + ", y: " + pt.PositionY;
-			personGameObject.AddComponent<Person>().Prepare(pt.PositionX, pt.PositionY );
-			int personW = (int)(personGameObject.GetComponent<Image>().sprite.rect.width * AspectRatioKeeper.ActualScale);
-			int personH = (int)(personGameObject.GetComponent<Image>().sprite.rect.height * AspectRatioKeeper.ActualScale);
+
+			personGameObject.GetComponent<Person>().Prepare(pt.PositionX, pt.PositionY );
+			personGameObject.GetComponent<ConeOfVisibility>().Prepare();
+
+			int personW = (int)(personGameObject.GetComponent<Person>().ImageAvatar.GetComponent<Image>().sprite.rect.width * AspectRatioKeeper.ActualScale);
+			int personH = (int)(personGameObject.GetComponent<Person>().ImageAvatar.GetComponent<Image>().sprite.rect.height * AspectRatioKeeper.ActualScale);
 			personGameObject.AddComponent<RealSize>().SetSize(personW, personH);
 			personGameObject.AddComponent<Rigidbody>();
 			personGameObject.rigidbody.isKinematic = true;
