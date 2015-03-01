@@ -9,12 +9,13 @@ public class PanelPeople : MonoBehaviour {
 	public GameObject PersonPrefab;
 	private List<GameObject> People = new List<GameObject>();
 
-	internal void SpawnPeople (List<PersonTemplate> personTemplates){
+	internal void SpawnPeople (List<PersonTemplate> personTemplates, GameType gameType){
+		
 		PersonPrefab.SetActive(true);
 		foreach(PersonTemplate pt in personTemplates){
 			SpawnPerson(pt.PositionX, pt.PositionY, Person.CollisionGroup.Enemies, Person.CharacterType.Weak);
 		}
-		SpawnPerson(2, 3, Person.CollisionGroup.Player, Person.CharacterType.Player); // PlayerCharacter
+		SpawnPerson(2, 3, Person.CollisionGroup.Player, Person.CharacterType.Player);
 		PersonPrefab.SetActive(false);
 	}
 

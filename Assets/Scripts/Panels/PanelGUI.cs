@@ -12,7 +12,6 @@ public class PanelGUI : MonoBehaviour {
 	public void ResetTimer () {
 		seconds = 0;
 		Timer.text = seconds.ToString ();
-		//StartCoroutine ("TimeCount");
 	}
 
 	public void UpdateTimer(float seconds) 
