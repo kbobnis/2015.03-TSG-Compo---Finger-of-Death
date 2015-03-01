@@ -24,7 +24,7 @@ public class PanelBonuses : MonoBehaviour {
 
 			p.ImageAvatar.AddComponent<TouchToKill>().Prepare();
 			Buff b = buffGameObject.AddComponent<Buff>();
-			b.DeltaSpeed = 1f;
+			b.DeltaSpeed = 0.6f;
 			p.ImageCone.SetActive(false);
 			p.Prepare((int)posX, (int)posY);
 			p.SetStats(1, 0, 0, Person.CollisionGroup.Chest);
@@ -44,7 +44,7 @@ public class PanelBonuses : MonoBehaviour {
 			p.ImageAvatar.AddComponent<BoxCollider>();
 			(p.ImageAvatar.collider as BoxCollider).size = new Vector3(16, 16, 16);
 			p.ImageAvatar.collider.isTrigger = true;
-			yield return new WaitForSeconds(5);
+			yield return new WaitForSeconds(3);
 		}
 	}
 }

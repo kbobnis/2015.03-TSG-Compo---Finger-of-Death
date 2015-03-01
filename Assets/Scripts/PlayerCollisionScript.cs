@@ -34,8 +34,12 @@ public class PlayerCollisionScript : MonoBehaviour {
 		}
 
 		ConeOfVisibility cov = null;
-		if ((cov = col.GetComponent<ConeOfVisibility>()) && col.gameObject.transform.parent.gameObject.GetComponent<Person>() == player) {
-			player.SomeoneSeesMe();
+		
+		if ((cov = col.GetComponent<ConeOfVisibility>())){
+			Person enemySees = col.gameObject.transform.parent.gameObject.GetComponent<Person>();
+			if (enemySees != player) {
+				player.SomeoneSeesMe(enemySees);
+			}
 		}
 	}
 
@@ -43,7 +47,8 @@ public class PlayerCollisionScript : MonoBehaviour {
 
 		ConeOfVisibility cov = null;
 		if (cov = col.GetComponent<ConeOfVisibility>()) {
-			player.SomeoneDoesntSeeMe();
+			Person enemySees = col.gameObject.transform.parent.gameObject.GetComponent<Person>();
+			player.SomeoneDoesntSeeMe(enemySees);
 		}
 
 	}

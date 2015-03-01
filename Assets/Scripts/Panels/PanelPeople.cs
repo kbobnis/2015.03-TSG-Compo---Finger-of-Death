@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
+using System.Linq;
 
 public class PanelPeople : MonoBehaviour {
 
@@ -16,11 +17,6 @@ public class PanelPeople : MonoBehaviour {
 			SpawnPerson(pt.PositionX, pt.PositionY, Person.CollisionGroup.Enemies, Person.CharacterType.Weak);
 		}
 		SpawnPerson(2, 3, Person.CollisionGroup.Player, Person.CharacterType.Player);
-
-		//StartCoroutine(SpawnBuff());
-		foreach(GameObject go in People){
-			go.GetComponent<Person>().ShadeOfCones = 0;
-		}
 
 		PersonPrefab.SetActive(false);
 	}
@@ -50,12 +46,12 @@ public class PanelPeople : MonoBehaviour {
 		switch (charType)
 		{
 			case Person.CharacterType.Player:
-				personScript.SetStats(30, 1, 1.5f, group);
+				personScript.SetStats(30, 1, 0.7f, group);
 				personScript.ImageCone.SetActive(false);
 				personScript.ImageAvatar.GetComponent<Image>().color = Color.red; //ForDEBUG
 				break;
 			case Person.CharacterType.Weak:
-				personScript.SetStats(1, 1, 1, group);
+				personScript.SetStats(1, 1, 0.5f, group);
 				personScript.ImageAvatar.AddComponent<TouchToKill>().Prepare();
 				personScript.ImageCone.GetComponent<ConeOfVisibility>().Prepare();
 				personScript.DirectionListener = personScript.ImageCone.GetComponent<ConeOfVisibility>();
@@ -72,9 +68,13 @@ public class PanelPeople : MonoBehaviour {
 		}
 		People.Add(personGameObject);
 	}
-	public void PersonDied(GameObject Person) 
+	public void PersonDied(GameObject personGo) 
 	{
-		People.Remove(Person);
+		foreach (GameObject p in People) {
+			p.GetComponent<Person>().ShadeOfCones.Remove(personGo.GetComponent<Person>());
+		}
+		People.Remove(personGo);
+
 	}
 
 	void Update()
@@ -82,6 +82,9 @@ public class PanelPeople : MonoBehaviour {
 		if (Input.GetKeyDown(KeyCode.I))
 		{
 			SpawnPerson(1, 1, Person.CollisionGroup.Enemies, Person.CharacterType.Weak);
+		}
+		if (People.Count == 1) {
+			Game.Me.EndGame();
 		}
 	}
 

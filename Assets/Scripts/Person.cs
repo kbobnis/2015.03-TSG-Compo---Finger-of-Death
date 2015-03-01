@@ -9,10 +9,10 @@ public class Person : MonoBehaviour
 
 	public int Health = 1;
 	public int AttackPower = 1;
-	public float Speed = 1;
+	public float Speed = 0.5f;
 	public int Points = 0;
 
-	public int ShadeOfCones;
+	public List<Person> ShadeOfCones = new List<Person>();
 
 	public float X, Y;
 	public Direction StartDir = Direction.S;
@@ -124,16 +124,16 @@ public class Person : MonoBehaviour
 	}
 
 	private void UpdateImage() {
-		ImageAvatar.GetComponent<Image>().color = _CollisionGroup==CollisionGroup.Player?Color.red:ShadeOfCones > 0 ? Color.yellow : Color.white;
+		ImageAvatar.GetComponent<Image>().color = _CollisionGroup==CollisionGroup.Player?Color.red:ShadeOfCones.Count > 0 ? Color.yellow : Color.white;
 	}
 
-	internal void SomeoneSeesMe() {
-		ShadeOfCones++;
+	internal void SomeoneSeesMe(Person p) {
+		ShadeOfCones.Add(p);
 		UpdateImage();
 	}
 
-	internal void SomeoneDoesntSeeMe() {
-		ShadeOfCones--;
+	internal void SomeoneDoesntSeeMe(Person p) {
+		ShadeOfCones.Remove(p);
 		UpdateImage();
 	}
 }

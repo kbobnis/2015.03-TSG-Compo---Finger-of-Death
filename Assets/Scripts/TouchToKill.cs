@@ -28,7 +28,7 @@ public class TouchToKill : MonoBehaviour {
 			throw new System.Exception("Why are you touching something like this?");
 		}
 		p.Health--;
-		if (p.ShadeOfCones > 0){
+		if (p.ShadeOfCones.Count > 0){
 			Game.Me.EndGame();
 		}
 		else 
