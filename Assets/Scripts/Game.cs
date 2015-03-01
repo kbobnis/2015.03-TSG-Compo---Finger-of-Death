@@ -33,6 +33,7 @@ public class Game : MonoBehaviour {
 	public void EndGame (){
 		PanelMainMenu.SetActive (true);
 		PanelMinigame.SetActive (false);
+		PanelMinigame.GetComponent<PanelMinigame>().PanelPeople.GetComponent<PanelPeople>().ClearBoard();
 	}
 }
 

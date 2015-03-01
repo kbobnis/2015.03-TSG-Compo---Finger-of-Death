@@ -4,20 +4,28 @@ using System.Collections;
 public class PlayerCollisionScript : MonoBehaviour {
 
 	Person player;
-	void Awake() { 
-		player = GetComponent<Person>();
+	public void SetOwner(Person owner) {
+		player = owner;
 		
+	}
+	void Awake() 
+	{
+		if (!player) 
+		{
+			player = transform.parent.GetComponent<Person>();
+		}
 	}
 	void Update() 
 	{
-		PanelGUI.GetPanelGUI().UpdateScore(player.Points);
+		//PanelGUI.GetPanelGUI().UpdateScore(player.Points);
 	}
 
 	void OnTriggerEnter(Collider col)
 	{
 		Person enemy;
-		if ((enemy = col.GetComponent<Person>()) == true) 
+		if (col.transform.GetComponent<PlayerCollisionScript>() == true) 
 		{
+			enemy = col.transform.parent.GetComponent<Person>();
 			if (player.Health>0 && enemy.Health>0  && player._CollisionGroup != enemy._CollisionGroup)
 			{
 				//player.Health -= enemy.AttackPower;
@@ -31,7 +39,7 @@ public class PlayerCollisionScript : MonoBehaviour {
 
 		ConeOfVisibility cov = null;
 		if ((cov = col.GetComponent<ConeOfVisibility>()) && col.gameObject.transform.parent.gameObject.GetComponent<Person>() == player) {
-			GetComponent<Person>().SomeoneSeesMe();
+			player.SomeoneSeesMe();
 		}
 	}
 
@@ -39,7 +47,7 @@ public class PlayerCollisionScript : MonoBehaviour {
 
 		ConeOfVisibility cov = null;
 		if (cov = col.GetComponent<ConeOfVisibility>()) {
-			GetComponent<Person>().SomeoneDoesntSeeMe();
+			player.SomeoneDoesntSeeMe();
 		}
 
 	}
