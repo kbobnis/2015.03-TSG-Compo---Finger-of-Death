@@ -22,7 +22,11 @@ public class TouchToKill : MonoBehaviour {
 	}
 
 	private void Touched(BaseEventData bed) {
-		Destroy(gameObject);
+		Person p = gameObject.GetComponent<Person>();
+		if (p == null) {
+			throw new System.Exception("Why are you touching something like this?");
+		}
+		p.Health--;
 	}
 	
 }

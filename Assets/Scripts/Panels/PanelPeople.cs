@@ -9,13 +9,18 @@ public class PanelPeople : MonoBehaviour {
 	public GameObject PersonPrefab;
 	private List<GameObject> People = new List<GameObject>();
 
-	internal void SpawnPeople (List<PersonTemplate> personTemplates, GameType gameType){
+	internal void SpawnPeople (List<PersonTemplate> personTemplates){
 		
 		PersonPrefab.SetActive(true);
 		foreach(PersonTemplate pt in personTemplates){
 			SpawnPerson(pt.PositionX, pt.PositionY, Person.CollisionGroup.Enemies, Person.CharacterType.Weak);
 		}
 		SpawnPerson(2, 3, Person.CollisionGroup.Player, Person.CharacterType.Player);
+
+		foreach(GameObject go in People){
+			go.GetComponent<Person>().ShadeOfCones = 0;
+		}
+
 		PersonPrefab.SetActive(false);
 	}
 
@@ -26,7 +31,7 @@ public class PanelPeople : MonoBehaviour {
 		personGameObject.transform.parent = transform;
 		personGameObject.name = "person: " + ", x: " + positionX + ", y: " + positionY;
 		Person personScript = personGameObject.GetComponent<Person>();
-		personGameObject.GetComponent<ConeOfVisibility>().Prepare();
+		
 		personScript.Prepare(positionX, positionY);
 		int personW = (int)(personScript.ImageAvatar.GetComponent<Image>().sprite.rect.width * AspectRatioKeeper.ActualScale);
 		int personH = (int)(personScript.ImageAvatar.GetComponent<Image>().sprite.rect.height * AspectRatioKeeper.ActualScale);
@@ -39,31 +44,31 @@ public class PanelPeople : MonoBehaviour {
 		personGameObject.AddComponent<BoxCollider>();
 		(personGameObject.collider as BoxCollider).size = new Vector3(16, 16, 16);
 		personGameObject.collider.isTrigger = true;
+		personGameObject.AddComponent<PlayerCollisionScript>();
 		personScript.StartMe();
-		personScript.SetGroup(group);
 		switch (charType)
 		{
 			case Person.CharacterType.Player:
-				personScript.SetStats(3, 1, 1.5f, 60);
-				personGameObject.AddComponent<PlayerCollisionScript>();
+				personScript.SetStats(3, 1, 1.5f, group);
+				
+				personScript.ImageCone.SetActive(false);
 				personScript.ImageAvatar.GetComponent<Image>().color = Color.red; //ForDEBUG
-				personScript.personBuff = new PersonBuff(0,0,0,0,false,0);
 				break;
 			case Person.CharacterType.Weak:
-				personScript.SetStats(1, 0, 1, 999999);
-				personScript.personBuff = new PersonBuff(0,2,5,0,false,0);
+				personScript.SetStats(1, 0, 1, group);
+				personGameObject.AddComponent<TouchToKill>().Prepare();
+				personScript.ImageCone.GetComponent<ConeOfVisibility>().Prepare();
+				personScript.DirectionListener = personScript.ImageCone.GetComponent<ConeOfVisibility>();
+
 				break;
 			case Person.CharacterType.Bonus:
-				personScript.SetStats(1, 0, 0, 999999);
-				personScript.personBuff = new PersonBuff(0,0,0,0,false,0);
+				personScript.SetStats(1, 0, 0, group);
 				break;
 			case Person.CharacterType.Soldier:
-				personScript.SetStats(1, 1, 1, 999999);
-				personScript.personBuff = new PersonBuff(0,5,10,0,false,0);
+				personScript.SetStats(1, 1, 1, group);
 				break;
 			case Person.CharacterType.Boss:
-				personScript.SetStats(1, 3, 1, 999999);
-				personScript.personBuff = new PersonBuff(0,5,20,0,false,0);
+				personScript.SetStats(1, 3, 1, group);
 				break;
 			default:
 				break;

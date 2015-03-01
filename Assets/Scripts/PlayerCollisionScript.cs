@@ -10,40 +10,37 @@ public class PlayerCollisionScript : MonoBehaviour {
 	}
 	void Update() 
 	{
-		//ControlbuffsOnPlayer
-		PanelGUI.GetPanelGUI().UpdateTimer(player.timeToDeath);
-		PanelGUI.GetPanelGUI().UpdateScore(player.score);
+		PanelGUI.GetPanelGUI().UpdateScore(player.Points);
 	}
+
 	void OnTriggerEnter(Collider col)
 	{
 		Person enemy;
 		if ((enemy = col.GetComponent<Person>()) == true) 
 		{
-			if (player.lives>0 && enemy.lives>0  && player.group != enemy.group)
+			if (player.Health>0 && enemy.Health>0  && player._CollisionGroup != enemy._CollisionGroup)
 			{
-				if ((player.lives - enemy.attackPower) > 0) 
-				{
-					player.lives -= enemy.attackPower;
-				}
-				else 
-				{
-				//Player is dead;
-					player.lives = 0;
-					//ENDGAME
-				}
-				if ((enemy.lives - player.attackPower) > 0)
-				{
-					enemy.lives -= player.attackPower;
-				}
-				else
-				{
-					//enemy is dead;
-					player.AddBuff(enemy.personBuff);
-					enemy.lives = 0;
+				//player.Health -= enemy.AttackPower;
+				enemy.Health -= player.AttackPower;
 
-					//GetBonus
+				if (enemy.Health <= 0 && enemy.GetComponent<Buff>() != null) {
+					player.AddBuff(enemy.GetComponent<Buff>());
 				}
 			}
 		}
+
+		ConeOfVisibility cov = null;
+		if ((cov = col.GetComponent<ConeOfVisibility>()) && col.gameObject.transform.parent.gameObject.GetComponent<Person>() == player) {
+			GetComponent<Person>().SomeoneSeesMe();
+		}
+	}
+
+	void OnTriggerExit(Collider col){
+
+		ConeOfVisibility cov = null;
+		if (cov = col.GetComponent<ConeOfVisibility>()) {
+			GetComponent<Person>().SomeoneDoesntSeeMe();
+		}
+
 	}
 }

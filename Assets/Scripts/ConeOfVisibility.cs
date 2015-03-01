@@ -3,8 +3,6 @@ using System.Collections;
 
 public class ConeOfVisibility : MonoBehaviour, DirectionListener {
 
-	public GameObject ImageCone;
-
 	// Update is called once per frame
 	void Update () {
 	
@@ -17,8 +15,8 @@ public class ConeOfVisibility : MonoBehaviour, DirectionListener {
 	}
 
 	public void DirectionChanged(Direction StartDir, Direction DestDir) {
-		ImageCone.transform.rotation = new Quaternion();
-		ImageCone.transform.Rotate(0, 0, -StartDir.Angle(DestDir));
+		transform.rotation = new Quaternion();
+		transform.Rotate(0, 0, -StartDir.Angle(DestDir));
 	}
 
 }

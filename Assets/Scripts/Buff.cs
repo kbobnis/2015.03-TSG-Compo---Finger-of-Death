@@ -4,15 +4,8 @@ using System.Collections;
 
 public class Buff : MonoBehaviour {
 	
-	public float Time;
-	public float DeltaLife;
 	public float DeltaSpeed;
 	public int DeltaPoints;
-	public bool Undestructable;
+	public int DeltaLife;
 
-
-	public void OnTriggerEnter (){
-		Debug.Log ("Gain: time: " + Time + ", life: " + DeltaLife + ", speed: " + DeltaSpeed + ", points: " + DeltaPoints + ", immortality: " + Undestructable);
-		Destroy (gameObject);
-	}
 }

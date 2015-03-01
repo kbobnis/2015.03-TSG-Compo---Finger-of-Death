@@ -5,78 +5,30 @@ using UnityEngine.UI;
 
 public class Person : MonoBehaviour
 {
-	#region PlayerStats
-	public int lives = 1;
-	public bool isAlive = true;
-	public int attackPower = 1;
-	int maxLives = 1;
-	public float timeToDeath = 60;
-	public float speed = 1;
+	public GameObject ImageAvatar, ImageCone;
+
+	public int Health = 1;
+	public int AttackPower = 1;
+	public float Speed = 1;
+	public int Points = 0;
+
+	public int ShadeOfCones;
+
 	public float X, Y;
 	public Direction StartDir = Direction.S;
 	public Direction DestDir;
 	public float Progress = 0;
 	public DirectionListener DirectionListener;
-	public CollisionGroup group = CollisionGroup.Enemies;
-	public void SetGroup(CollisionGroup value) { group = value; }
-	public List<PersonBuff> buffs;
-	float speedMod = 0;
+	public CollisionGroup _CollisionGroup = CollisionGroup.Enemies;
 
-	public float GetSpeed() { return speed + speedMod; }
-	public PersonBuff personBuff;
-	bool isPowerful = false;
-	public int score = 0;
-	public GameObject ImageAvatar;
-
-	public void SetStats(int maxLives, int attackPower, float speed, float timeToDeath){
-		this.maxLives = maxLives;
-		this.lives = maxLives;
-		this.attackPower = attackPower;
-		this.speed = speed;
-		this.timeToDeath = timeToDeath;
+	public void SetStats(int health, int attackPower, float speed, CollisionGroup collisionGroup){
+		Health = health;
+		AttackPower = attackPower;
+		Speed = speed;
+		_CollisionGroup = collisionGroup;
 	}
-
-	public void PersonStatsUpdate() {
-		timeToDeath -= Time.deltaTime;
-		if (isAlive && (timeToDeath <= 0 || lives <= 0)){
-			Death();
-		}
-	}
-
-	void Death(){
-		isAlive = false;
-		Game.Me.PanelMinigame.GetComponent<PanelMinigame>().PanelPeople.GetComponent<PanelPeople>().PersonDied(gameObject);
-		Destroy(gameObject);
-	}
-
-	#region Buffs
-	
-	public void IncreaseSpeed(float value)
-	{
-		speedMod = value;
-	}
-	public void AddBuff(PersonBuff buff) 
-	{
-		lives += buff.deltaLives;
-		if (lives > maxLives) 
-		{
-			score += 10;
-		}
-		score += buff.deltaScore;
-		timeToDeath += buff.deltaTimeToLive;
-		if (buff.timer > 0) 
-		{
-			buffs.Add(buff);
-		}
-	}
-	#endregion
-	#endregion
-
-	
-
 
 	internal void Prepare(int x, int y) {
-		buffs = new List<PersonBuff>();
 		X = x;
 		Y = y;
 		Sprite s = SpriteManager.RandomPerson();
@@ -93,12 +45,12 @@ public class Person : MonoBehaviour
 		Progress = 0;
 
 		if (DirectionListener != null) {
-			Debug.Log("Start dir: " + StartDir + ", dest dir: " + DestDir);
 			DirectionListener.DirectionChanged(StartDir, DestDir);
 		}
 	}
 
 	void OnDestroy() {
+		Game.Me.PanelMinigame.GetComponent<PanelMinigame>().PanelPeople.GetComponent<PanelPeople>().PersonDied(gameObject);
 		Game.Me.PanelMinigame.GetComponent<PanelMinigame>().PanelTiles.GetComponent<PanelTiles>().GetTile((int)X, (int)Y).Unlock();
 	}
 
@@ -124,7 +76,7 @@ public class Person : MonoBehaviour
 	}
 
 	void Update() {
-		Progress += 0.99f * Time.deltaTime * GetSpeed();
+		Progress += 0.99f * Time.deltaTime * Speed;
 
 		if (Progress >= 1) {
 			MoveToNext();
@@ -139,7 +91,12 @@ public class Person : MonoBehaviour
 			offset.y++;
 		}
 		GetComponent<InGamePos>().UpdatePos(X + offset.x, Y + offset.y - 0.1f); //-0.1f to make an illusion that he is going on path
-		PersonStatsUpdate();
+
+
+		if (Health <= 0) {
+			Destroy(gameObject);
+		}
+		UpdateImage();
 	}
 
 	public enum CollisionGroup
@@ -153,5 +110,30 @@ public class Person : MonoBehaviour
 		Soldier,
 		Boss,
 		Player
+	}
+
+	internal void AddBuff(Buff buff) {
+
+		if (buff == null) {
+			throw new System.Exception("Adding null buff? Not good");
+		}
+		Health += buff.DeltaLife;
+		Speed += buff.DeltaSpeed;
+		Points += buff.DeltaPoints;
+
+	}
+
+	private void UpdateImage() {
+		ImageAvatar.GetComponent<Image>().color = _CollisionGroup==CollisionGroup.Player?Color.red:ShadeOfCones > 0 ? Color.yellow : Color.white;
+	}
+
+	internal void SomeoneSeesMe() {
+		ShadeOfCones++;
+		UpdateImage();
+	}
+
+	internal void SomeoneDoesntSeeMe() {
+		ShadeOfCones--;
+		UpdateImage();
 	}
 }
