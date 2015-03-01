@@ -11,7 +11,6 @@ public class PanelPeople : MonoBehaviour {
 	private List<GameObject> People = new List<GameObject>();
 
 	internal void SpawnPeople (List<PersonTemplate> personTemplates){
-
 		PersonPrefab.SetActive(true);
 		int i=0;
 		foreach(PersonTemplate pt in personTemplates){
@@ -23,6 +22,12 @@ public class PanelPeople : MonoBehaviour {
 			int personW = (int)(personGameObject.GetComponent<Image>().sprite.rect.width * AspectRatioKeeper.ActualScale);
 			int personH = (int)(personGameObject.GetComponent<Image>().sprite.rect.height * AspectRatioKeeper.ActualScale);
 			personGameObject.AddComponent<RealSize>().SetSize(personW, personH);
+			personGameObject.AddComponent<Rigidbody>();
+			personGameObject.rigidbody.isKinematic = true;
+			personGameObject.rigidbody.useGravity = false;
+			personGameObject.AddComponent<BoxCollider>();
+			(personGameObject.collider as BoxCollider).size = new Vector3(16, 16, 16);
+			personGameObject.collider.isTrigger = true;
 			personGameObject.GetComponent<Person>().StartMe();
 			personGameObject.AddComponent<TouchToKill>().Prepare() ;
 
