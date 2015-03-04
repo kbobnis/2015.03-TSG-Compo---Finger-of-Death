@@ -9,7 +9,7 @@ public class Person : MonoBehaviour
 
 	public int Health = 1;
 	public int AttackPower = 1;
-	public float Speed = 0.5f;
+	public float Speed;
 	public int Points = 0;
 
 	public List<Person> ShadeOfCones = new List<Person>();
@@ -95,7 +95,6 @@ public class Person : MonoBehaviour
 			offset.y++;
 		}
 		GetComponent<InGamePos>().UpdatePos(X + offset.x, Y + offset.y - 0.1f); //-0.1f to make an illusion that he is going on path
-
 
 		if (Health <= 0) {
 			Destroy(gameObject);

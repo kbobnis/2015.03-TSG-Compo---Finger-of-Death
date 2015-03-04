@@ -42,7 +42,7 @@ public class PanelBonuses : MonoBehaviour {
 		p.Prepare((int)posX, (int)posY);
 		p.SetStats(1, 0, 0, Person.CollisionGroup.Chest);
 		p.ImageAvatar.GetComponent<Image>().sprite = SpriteManager.BuffSprite;
-		p.ImageAvatar.AddComponent<PlayerCollisionScript>().SetOwner(p);
+		p.ImageAvatar.AddComponent<PlayerCollisionScript>();
 
 		buffGameObject.name = "buff x: " + posX + ", y: " + posY;
 		int buffW = (int)(p.ImageAvatar.GetComponent<Image>().sprite.rect.width * AspectRatioKeeper.ActualScale*3/2f);

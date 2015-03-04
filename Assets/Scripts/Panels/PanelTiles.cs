@@ -8,8 +8,12 @@ public class PanelTiles : MonoBehaviour {
 	private List<List<Tile>> Tiles = new List<List<Tile>>();
 
 	internal void Prepare(List<List<TileTemplate>> tiles) {
-
 		
+		foreach (List<Tile> ts in Tiles) {
+			foreach (Tile t in ts) {
+				Destroy(t.gameObject);
+			}
+		}
 
 		TilePrefab.SetActive(true);
 
@@ -44,11 +48,4 @@ public class PanelTiles : MonoBehaviour {
 		return Tiles[(int)Y][(int)X];
 	}
 
-	internal void ClearTiles() {
-		foreach (List<Tile> ts in Tiles) {
-			foreach (Tile t in ts) {
-				Destroy(t.gameObject);
-			}
-		}
-	}
 }

@@ -4,11 +4,6 @@ using UnityEngine.UI;
 
 public class ConeOfVisibility : MonoBehaviour, DirectionListener {
 
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
 	internal void Prepare() {
 		if (GetComponent<Person>()) {
 			GetComponent<Person>().DirectionListener = this;
@@ -20,7 +15,7 @@ public class ConeOfVisibility : MonoBehaviour, DirectionListener {
 		Vector3 pos = gameObject.GetComponent<RectTransform>().localPosition;
 		gameObject.GetComponent<RectTransform>().localPosition = new Vector3(pos.x, pos.y + personH / 2, pos.z);
 
-		gameObject.GetComponent<BoxCollider>().size = new Vector3(personW*4/5, personH, 32);
+		gameObject.GetComponent<BoxCollider>().size = new Vector3(personW*5/7f, personH*5/6f, 32);
 		gameObject.GetComponent<BoxCollider>().center = new Vector3(0, personH/2, 0);
 	}
 

@@ -3,27 +3,14 @@ using System.Collections;
 
 public class PlayerCollisionScript : MonoBehaviour {
 
-	Person player;
-	public void SetOwner(Person owner) {
-		player = owner;
-		
-	}
-	void Awake() 
-	{
-		if (!player) 
-		{
-			player = transform.parent.GetComponent<Person>();
-		}
-	}
+	void OnTriggerEnter(Collider col){
 
-	void OnTriggerEnter(Collider col)
-	{
+		Person player = transform.parent.GetComponent<Person>();
+
 		Person enemy;
-		if (col.transform.GetComponent<PlayerCollisionScript>() == true) 
-		{
+		if (col.transform.GetComponent<PlayerCollisionScript>() == true){
 			enemy = col.transform.parent.GetComponent<Person>();
-			if (player.Health>0 && enemy.Health>0  && player._CollisionGroup != enemy._CollisionGroup)
-			{
+			if (player.Health>0 && enemy.Health>0  && player._CollisionGroup != enemy._CollisionGroup){
 				//player.Health -= enemy.AttackPower;
 				enemy.Health -= player.AttackPower;
 
@@ -34,7 +21,6 @@ public class PlayerCollisionScript : MonoBehaviour {
 		}
 
 		ConeOfVisibility cov = null;
-		
 		if ((cov = col.GetComponent<ConeOfVisibility>())){
 			Person enemySees = col.gameObject.transform.parent.gameObject.GetComponent<Person>();
 			if (enemySees != player) {
@@ -44,6 +30,7 @@ public class PlayerCollisionScript : MonoBehaviour {
 	}
 
 	void OnTriggerExit(Collider col){
+		Person player = transform.parent.GetComponent<Person>();
 
 		ConeOfVisibility cov = null;
 		if (cov = col.GetComponent<ConeOfVisibility>()) {
