@@ -5,32 +5,30 @@ using System.Collections;
 public class PanelGUI : MonoBehaviour {
 
 	public Text Timer;
-	public Text Score;
+	public Text Points;
+	private float StartGameTime;
 
-	public static float seconds = 0;
+	public int Score, Time;
 
-	public void ResetTimer () {
-		seconds = 0;
-		UpdateTimer(seconds);
-		UpdateScore(0);
-		//StartCoroutine(TimeCount());
-	}
-	void Update() 
-	{
-		seconds += Time.deltaTime;
-		UpdateTimer(seconds);
-	}
-	public void UpdateTimer(float seconds) 
-	{
-		Timer.text = seconds.ToString("0");
-	}
-	public void UpdateScore(float value)
-	{
-		Score.text = value.ToString();
+	public void Reset() {
+		Score = 0;
+		Time = 0;
+		StartGameTime = UnityEngine.Time.time;
+		UpdateGui();
 	}
 
-	public static PanelGUI GetPanelGUI()
-	{
-		return Game.Me.PanelMinigame.GetComponent<PanelMinigame>().PanelGUI.GetComponent<PanelGUI>();
+	void Update() {
+		Time = (int)(UnityEngine.Time.time - StartGameTime);
+		UpdateGui();
+	}
+
+	private void UpdateGui() {
+		Points.text = "" + Score;
+		Timer.text = "" + Time;
+	}
+
+	internal void IncreaseScore(int delta) {
+		Score += delta;
+		UpdateGui();
 	}
 }

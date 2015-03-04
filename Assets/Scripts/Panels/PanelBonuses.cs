@@ -7,44 +7,25 @@ public class PanelBonuses : MonoBehaviour {
 
 	public GameObject PersonPrefab;
 	public List<GameObject> Bonuses;
-	float timer = 0;
-	internal void Prepare()
-	{
-		timer = 0;
-		Bonuses = new List<GameObject>();
-		//StartCoroutine (SpawnBuff ());
-	}
-	public void ClearingBonuses()
-	{
-		for (int i = 0; i < Bonuses.Count; i++)
-		{
+	private float TimeSinceLastBonus;
+	
+	internal void Prepare(){
+		for (int i = 0; i < Bonuses.Count; i++) {
 			Destroy(Bonuses[i]);
 		}
 		Bonuses.Clear();
-	}
-	void Update()
-	{
-		if (Game.gameIsRunning) 
-		{
-			if (timer < PanelGUI.seconds)
-			{
-				SpawnBonus();
-				timer = PanelGUI.seconds + 3;
-			}
-		}
-	}
-	IEnumerator SpawnBuff()
-	{
-		while (Game.gameIsRunning)
-		{
-			SpawnBonus();
-			yield return new WaitForSeconds(3);
-		}
-		
+		Bonuses = new List<GameObject>();
+		TimeSinceLastBonus = Time.time;
 	}
 
-	private void SpawnBonus()
-	{
+	void Update() {
+		if (Time.time > TimeSinceLastBonus + 3) {
+			SpawnBonus();
+			TimeSinceLastBonus += 3;
+		}
+	}
+
+	private void SpawnBonus(){
 		GameObject buffGameObject = Instantiate(PersonPrefab) as GameObject;
 
 		buffGameObject.SetActive(true);

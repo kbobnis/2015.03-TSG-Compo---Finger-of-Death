@@ -8,10 +8,15 @@ using System.Linq;
 public class PanelPeople : MonoBehaviour {
 
 	public GameObject PersonPrefab;
-	private List<GameObject> People = new List<GameObject>();
+	public List<GameObject> People = new List<GameObject>();
 
 	internal void SpawnPeople (List<PersonTemplate> personTemplates){
-		
+		foreach (GameObject p in People) {
+			Destroy(p);
+		}
+		People.Clear();
+
+
 		PersonPrefab.SetActive(true);
 		foreach(PersonTemplate pt in personTemplates){
 			SpawnPerson(pt.PositionX, pt.PositionY, Person.CollisionGroup.Enemies, Person.CharacterType.Weak);
@@ -88,9 +93,6 @@ public class PanelPeople : MonoBehaviour {
 		{
 			SpawnPerson(1, 1, Person.CollisionGroup.Enemies, Person.CharacterType.Weak);
 		}
-		if (People.Count == 1) {
-			Game.Me.EndGame(true);
-		}
 	}
 
 	internal void ClearBoard()
@@ -127,7 +129,6 @@ public class PanelPeople : MonoBehaviour {
 			int buffH = (int)(p.ImageAvatar.GetComponent<Image>().sprite.rect.height * AspectRatioKeeper.ActualScale);
 			buffGameObject.AddComponent<RealSize>().SetSize(buffW, buffH);
 			buffGameObject.AddComponent<InGamePos>().UpdatePos(posX, posY);
-
 
 			p.ImageAvatar.AddComponent<Rigidbody>();
 			p.ImageAvatar.rigidbody.isKinematic = true;

@@ -9,7 +9,6 @@ public class Game : MonoBehaviour {
 	public GameObject PanelEndgame;
 
 	public static Game Me;
-	public static bool gameIsRunning = false;
 	void Awake() {
 		Me = this;
 
@@ -21,7 +20,6 @@ public class Game : MonoBehaviour {
 	public void StartGameBase() {
 
 		try {
-			gameIsRunning = true;
 			PanelMinigame.SetActive(true);
 			PanelMainMenu.SetActive(false);
 			PanelEndgame.SetActive(false);
@@ -33,14 +31,5 @@ public class Game : MonoBehaviour {
 		}
 	}
 
-	public void EndGame (bool won){
-		gameIsRunning = false;
-		//PanelMainMenu.SetActive (true);
-		PanelEndgame.GetComponent<PanelEndGame>().UpdateEndGameText(won); 
-		PanelMinigame.SetActive (false);
-		PanelMinigame.GetComponent<PanelMinigame>().PanelPeople.GetComponent<PanelPeople>().ClearBoard();
-		PanelMinigame.GetComponent<PanelMinigame>().PanelBonuses.GetComponent<PanelBonuses>().ClearingBonuses();
-		PanelMinigame.GetComponent<PanelMinigame>().PanelTiles.GetComponent<PanelTiles>().ClearTiles();
-	}
 }
 

@@ -3,14 +3,14 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class PanelEndGame : MonoBehaviour {
-	public Text score;
-	public Text time;
+	
+	public Text EndGameReason, ScoreCalculation;
 
-	public void UpdateEndGameText(bool won) 
+	public void EndGame(int time, int score, bool won) 
 	{
 		gameObject.SetActive(true);
-		int result = (int)PanelMinigame.score - (int)PanelGUI.seconds + (won ? 10 : 0);
-		score.text = "Points:" + result;
-		time.text = "";
+		EndGameReason.GetComponentInChildren<Text>().text = won ? "You have won by killing all the monsters. Congratulations." : "You tried to kill a monster with red color, you lost.";
+		int result = score - time + (won ? 10 : 0);
+		ScoreCalculation.GetComponentInChildren<Text>().text = "Score " + result + " pt\ncalculation: score (" + score + " pt) - time (" + time + " pt)" + (won ? "+ win (10 pt)" : "") + " = " + result + " pt";
 	}
 }

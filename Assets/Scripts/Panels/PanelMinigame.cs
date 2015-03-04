@@ -8,17 +8,24 @@ public class PanelMinigame : MonoBehaviour {
 	public GameObject PanelPeople;
 	public GameObject PanelGUI;
 	public GameObject PanelBonuses;
+	public GameObject PanelEndGame;
 
-	public static int score = 0;
 	internal void Prepare(List<List<TileTemplate>> tiles, List<PersonTemplate> personTemplates) {
-		score = 0;
-		PanelGUI.GetComponent<PanelGUI>().ResetTimer();
+		PanelGUI.GetComponent<PanelGUI>().Reset();
 		PanelTiles.GetComponent<PanelTiles>().Prepare(tiles);
 		PanelPeople.GetComponent<PanelPeople>().SpawnPeople(personTemplates);
 		PanelBonuses.GetComponent<PanelBonuses> ().Prepare ();
 	}
 
-	internal static void IncreaseScore(int p){
-		score += p;
+	void Update() {
+		if (PanelPeople.GetComponent<PanelPeople>().People.Count == 1) {
+			EndGame(true);
+		}
+	}
+
+	public void EndGame(bool won) {
+
+		PanelEndGame.GetComponent<PanelEndGame>().EndGame(PanelGUI.GetComponent<PanelGUI>().Time, PanelGUI.GetComponent<PanelGUI>().Score, won);
+		gameObject.SetActive(false);
 	}
 }

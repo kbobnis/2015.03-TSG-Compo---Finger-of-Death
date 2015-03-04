@@ -20,21 +20,21 @@ public class TouchToKill : MonoBehaviour {
 		et.delegates.Add(pointerDown);	
 	}
 
-	private void Touched(BaseEventData bed)
-	{
-		Person p = transform.parent.GetComponent<Person>();
-		if (p == null)
-		{
-			throw new System.Exception("Why are you touching something like this?");
-		}
-		p.Health--;
-		if (p.ShadeOfCones.Count > 0){
-			Game.Me.EndGame(false);
-		}
-		else 
-		{
-			PanelMinigame.IncreaseScore(1);
-			PanelGUI.GetPanelGUI().UpdateScore(PanelMinigame.score);
+	private void Touched(BaseEventData bed){
+
+		try {
+			Person p = transform.parent.GetComponent<Person>();
+			if (p == null) {
+				throw new System.Exception("Why are you touching something like this?");
+			}
+			p.Health--;
+			if (p.ShadeOfCones.Count > 0) {
+				Game.Me.PanelMinigame.GetComponent<PanelMinigame>().EndGame(false);
+			} else {
+				Game.Me.PanelMinigame.GetComponent<PanelMinigame>().PanelGUI.GetComponent<PanelGUI>().IncreaseScore(1);
+			}
+		} catch (System.Exception e) {
+			Debug.Log("Exception: " + e);
 		}
 	}	
 }
