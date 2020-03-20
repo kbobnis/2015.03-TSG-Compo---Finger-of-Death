@@ -41,11 +41,11 @@ public class PanelPeople : MonoBehaviour {
 		personGameObject.AddComponent<InGamePos>().UpdatePos(positionX, positionY);
 
 		personScript.ImageAvatar.AddComponent<Rigidbody>();
-		personScript.ImageAvatar.rigidbody.isKinematic = true;
-		personScript.ImageAvatar.rigidbody.useGravity = false;
+		personScript.ImageAvatar.GetComponent<Rigidbody>().isKinematic = true;
+		personScript.ImageAvatar.GetComponent<Rigidbody>().useGravity = false;
 		personScript.ImageAvatar.AddComponent<BoxCollider>();
-		(personScript.ImageAvatar.collider as BoxCollider).size = new Vector3(personW, personH, 16);
-		personScript.ImageAvatar.collider.isTrigger = true;
+		(personScript.ImageAvatar.GetComponent<Collider>() as BoxCollider).size = new Vector3(personW, personH, 16);
+		personScript.ImageAvatar.GetComponent<Collider>().isTrigger = true;
 		personScript.ImageAvatar.AddComponent<PlayerCollisionScript>();
 		personScript.StartMe();
 		switch (charType)
@@ -53,7 +53,7 @@ public class PanelPeople : MonoBehaviour {
 			case Person.CharacterType.Player:
 				personScript.SetStats(30, 1, 0.7f, group);
 				personScript.ImageCone.SetActive(false);
-				(personScript.ImageAvatar.collider as BoxCollider).size = new Vector3(personW/4, personH/4, 16);
+				(personScript.ImageAvatar.GetComponent<Collider>() as BoxCollider).size = new Vector3(personW/4, personH/4, 16);
 				personScript.ImageAvatar.GetComponent<Image>().color = Color.red; //ForDEBUG
 				break;
 			case Person.CharacterType.Weak:

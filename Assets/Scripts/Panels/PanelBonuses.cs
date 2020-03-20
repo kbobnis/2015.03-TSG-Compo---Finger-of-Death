@@ -52,11 +52,11 @@ public class PanelBonuses : MonoBehaviour {
 
 
 		p.ImageAvatar.AddComponent<Rigidbody>();
-		p.ImageAvatar.rigidbody.isKinematic = true;
-		p.ImageAvatar.rigidbody.useGravity = false;
+		p.ImageAvatar.GetComponent<Rigidbody>().isKinematic = true;
+		p.ImageAvatar.GetComponent<Rigidbody>().useGravity = false;
 		p.ImageAvatar.AddComponent<BoxCollider>();
-		(p.ImageAvatar.collider as BoxCollider).size = new Vector3(16, 16, 16);
-		p.ImageAvatar.collider.isTrigger = true;
+		(p.ImageAvatar.GetComponent<Collider>() as BoxCollider).size = new Vector3(16, 16, 16);
+		p.ImageAvatar.GetComponent<Collider>().isTrigger = true;
 		Bonuses.Add(buffGameObject);
 	}
 }

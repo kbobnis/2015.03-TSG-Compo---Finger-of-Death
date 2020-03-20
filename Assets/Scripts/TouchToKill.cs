@@ -10,14 +10,14 @@ public class TouchToKill : MonoBehaviour {
 		EventTrigger et = gameObject.GetComponent<EventTrigger>();
 		if (et == null) {
 			et = gameObject.AddComponent<EventTrigger>();
-			et.delegates = new List<EventTrigger.Entry>();
+			et.triggers = new List<EventTrigger.Entry>();
 		}
 
 		EventTrigger.Entry pointerDown = new EventTrigger.Entry();
 		pointerDown.eventID = EventTriggerType.PointerDown;
 		pointerDown.callback = new EventTrigger.TriggerEvent();
 		pointerDown.callback.AddListener(Touched);
-		et.delegates.Add(pointerDown);	
+		et.triggers.Add(pointerDown);	
 	}
 
 	private void Touched(BaseEventData bed){
